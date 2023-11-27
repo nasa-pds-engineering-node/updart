@@ -32,7 +32,7 @@ jobs:
     #     role-session-name: PDS_GitHub_OIDC_TERRAFORM
 
     - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v2
+      uses: hashicorp/setup-terraform@v3
 
     - name: Terraform Init
       id: init
