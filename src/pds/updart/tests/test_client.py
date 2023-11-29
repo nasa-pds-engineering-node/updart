@@ -32,6 +32,10 @@ class ClientTestCase(unittest.TestCase):
             date_found = datetime.fromisoformat(iso8601_date_found)
             assert date_found <= date_ref
 
+    def test_after(self):
+        # TODO implement
+        pass
+
     def test_before_and_has_target(self):
         client = upd.PDSRegistryClient()
         products = upd.Products(client)
