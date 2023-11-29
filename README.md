@@ -1,46 +1,17 @@
-# PDS Template Repository for Python
+# Updart, Ur Planetary Data Art
 
-This is the template repository for PDS's Python projects.
+Access planetary datasets from the Planetary Data System
 
-This repository aims at being a base for new python repositories used in PDS. It guides developers to ease the initialization of a project and recommends preferred options to standardize developments and ease maintenance. Simply click the <kbd>Use this template</kbd> button ↑ (or use [this hyperlink](https://github.com/NASA-PDS/pds-template-repo-python/generate)).
-
-
-## 🏃 Getting Started With This Template
-
-See our wiki page for more info on setting up your new repo. You can remove this section once you have completed the necessary start-up steps.
-
-https://github.com/NASA-PDS/nasa-pds.github.io/wiki/Git-and-Github-Guide#creating-a-new-repo
-
-**👉 Important!** You must assign the teams as mentioned on the wiki page above! At a minimum, these are:
-
-| Team                                | Permission |
-| ----------------------------------- | ---------- |
-| `@NASA-PDS/pds-software-committers` | `write`    |
-| `@NASA-PDS/pds-software-pmc`        | `admin`    |
-| `@NASA-PDS/pds-operations`          | `admin`    |
-
----
-
-# My Project
-
-This is the XYZ that does this, that, and the other thing for the Planetary Data System.
-
-Please visit our website at: https://nasa-pds.github.io/pds-my-project
-
-It has useful information for developers and end-users.
 
 ## Prerequisites
 
-Include any system-wide requirements (`brew install`, `apt-get install`, `yum install`, …) **Python 3** should be used regardless as [Python 2 reached end-of-life on January 1st, 2020](https://pythonclock.org/).
-
+N/A
 
 ## User Quickstart
 
 Install with:
 
-    pip install my_pds_module
-
-If possible, make it so that your program works out of the box without any additional configuration—but see the [Configuration](###configuration) section for details.
+    pip install updart
 
 To execute, run:
 
@@ -66,31 +37,8 @@ For information on how to contribute to NASA-PDS codebases please take a look at
 
 Install in editable mode and with extra developer dependencies into your virtual environment of choice:
 
+    pip install git+https://github.com/NASA-AMMOS/slim-detect-secrets.git@exp
     pip install --editable '.[dev]'
-
-Make a baseline for any secrets (email addresses, passwords, API keys, etc.) in the repository:
-
-    detect-secrets scan . \
-        --all-files \
-        --disable-plugin AbsolutePathDetectorExperimental \
-        --exclude-files '\.secrets..*' \
-        --exclude-files '\.git.*' \
-        --exclude-files '\.mypy_cache' \
-        --exclude-files '\.pytest_cache' \
-        --exclude-files '\.tox' \
-        --exclude-files '\.venv' \
-        --exclude-files 'venv' \
-        --exclude-files 'dist' \
-        --exclude-files 'build' \
-        --exclude-files '.*\.egg-info' > .secrets.baseline
-
-Review the secrets to determine which should be allowed and which are false positives:
-
-    detect-secrets audit .secrets.baseline
-
-Please remove any secrets that should not be seen by the public. You can then add the baseline file to the commit:
-
-    git add .secrets.baseline
 
 Then, configure the `pre-commit` hooks:
 
