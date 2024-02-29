@@ -28,7 +28,7 @@ class ClientTestCase(unittest.TestCase):
         iso8601_date = "2005-07-06T05:50:23Z".replace("Z", "+00:00")
         date_ref = datetime.fromisoformat(iso8601_date)
         for p in products.before(date_ref):
-            iso8601_date_found = p.properties["pds:Time_Coordinates.pds:start_date_time"][0].replace("Z", "+00:00")
+            iso8601_date_found = p.start_date_time.replace("Z", "+00:00")
             date_found = datetime.fromisoformat(iso8601_date_found)
             assert date_found <= date_ref
 
@@ -40,11 +40,11 @@ class ClientTestCase(unittest.TestCase):
         client = upd.PDSRegistryClient()
         products = upd.Products(client)
         lidvid = "urn:nasa:pds:context:target:comet.9p_tempel_1"
-        iso8601_date = "2005-07-06T05:47:25Z".replace("Z", "+00:00")
+        iso8601_date = "2005-07-06T05:47:25+00:00"
         date_ref = datetime.fromisoformat(iso8601_date)
         for p in products.has_target(lidvid).before(date_ref):
             assert lidvid in p.properties["ref_lid_target"]
-            iso8601_date_found = p.properties["pds:Time_Coordinates.pds:start_date_time"][0].replace("Z", "+00:00")
+            iso8601_date_found = p.start_date_time.replace("Z", "+00:00")
             date_found = datetime.fromisoformat(iso8601_date_found)
             assert date_found <= date_ref
 
