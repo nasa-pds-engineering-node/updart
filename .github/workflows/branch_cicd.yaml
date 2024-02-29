@@ -37,15 +37,15 @@ jobs:
                 with:
                     lfs: true
                     fetch-depth: 0
-                    token: ${{secrets.ADMIN_GITHUB_TOKEN}}
+                    token: ${{secrets.ADMIN_GITHUB_TOKEN || github.token}}
             -
                 name: Set up Python 3
-                uses: actions/setup-python@v4
+                uses: actions/setup-python@v5
                 with:
                     python-version: '3.9'
             -
                 name: 💵 Python Cache
-                uses: actions/cache@v3
+                uses: actions/cache@v4
                 with:
                     path: ~/.cache/pip
                     # The "key" used to indicate a set of cached files is the operating system runner
