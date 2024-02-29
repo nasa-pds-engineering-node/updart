@@ -13,9 +13,6 @@ Install with:
 
     pip install updart
 
-To execute, run:
-
-    (put your run commands here)
 
 
 ## Code of Conduct
@@ -26,7 +23,6 @@ All users and developers of the NASA-PDS software are expected to abide by our [
 ## Development
 
 To develop this project, use your favorite text editor, or an integrated development environment with Python support, such as [PyCharm](https://www.jetbrains.com/pycharm/).
-
 
 ### Contributing
 
@@ -70,24 +66,10 @@ Dependencies for development are specified as the `dev` `extras_require` in `set
 
 All the source code is in a sub-directory under `src`.
 
-You should update the `setup.cfg` file with:
-
-- name of your module
-- license, default apache, update if needed
-- description
-- download url, when you release your package on github add the url here
-- keywords
-- classifiers
-- install_requires, add the dependencies of you package
-- extras_require, add the development Dependencies of your package
-- entry_points, when your package can be called in command line, this helps to deploy command lines entry points pointing to scripts in your package
-
-For the packaging details, see https://packaging.python.org/tutorials/packaging-projects/ as a reference.
-
 
 ### Configuration
 
-It is convenient to use ConfigParser package to manage configuration. It allows a default configuration which can be overwritten by the user in a specific file in their environment. See https://pymotw.com/2/ConfigParser/
+We use ConfigParser package to manage configuration. It allows a default configuration which can be overwritten by the user in a specific file in their environment. See https://pymotw.com/2/ConfigParser/
 
 For example:
 
