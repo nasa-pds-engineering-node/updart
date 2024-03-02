@@ -1,8 +1,8 @@
 # Changelog
 
-## [release/0.1.0](https://github.com/NASA-PDS/updart/tree/release/0.1.0) (2024-02-29)
+## [v0.1.0](https://github.com/NASA-PDS/updart/tree/v0.1.0) (2024-02-29)
 
-[Full Changelog](https://github.com/NASA-PDS/updart/compare/c5c69cbf9b198d2eb7b10d86c1c765fda90d7494...release/0.1.0)
+[Full Changelog](https://github.com/NASA-PDS/updart/compare/c5c69cbf9b198d2eb7b10d86c1c765fda90d7494...v0.1.0)
 
 
 
