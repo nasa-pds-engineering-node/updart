@@ -1,4 +1,4 @@
-# Updart, Ur Planetary Data Art
+# Updart, yoUr Planetary Data Art
 
 Access planetary datasets from the Planetary Data System
 
