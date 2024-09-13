@@ -4,6 +4,10 @@
 
 [Full Changelog](https://github.com/NASA-PDS/updart/compare/v0.1.0...«unknown»)
 
+**Requirements:**
+
+- As a user, I want to support search-after pagination [\#7](https://github.com/NASA-PDS/updart/issues/7)
+
 **Other closed issues:**
 
 - Support Francesco Apollo Seismic use case [\#22](https://github.com/NASA-PDS/updart/issues/22)
