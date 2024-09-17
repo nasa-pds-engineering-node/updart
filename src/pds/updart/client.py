@@ -3,7 +3,8 @@ from __future__ import print_function
 
 import logging
 from datetime import datetime
-from typing import Optional, List, Literal
+from typing import Literal
+from typing import Optional
 
 from pds.api_client import ApiClient
 from pds.api_client import Configuration
@@ -14,6 +15,7 @@ logger = logging.getLogger(__name__)
 DEFAULT_API_BASE_URL = "https://pds.nasa.gov/api/search/1"
 
 PROCESSING_LEVELS = Literal["telemetry", "raw", "partially-processed", "calibrated", "derived"]
+
 
 class PDSRegistryClient:
     """Used to connect to the PDSRegistry."""
@@ -113,17 +115,17 @@ class Products:
 
         :return: a Products instance with observational product class filter applied
         """
-        clause = f'product_class eq "Product_Observational"'
+        clause = 'product_class eq "Product_Observational"'
         self.__add_clause(clause)
         return self
 
-    def collections(self, type: Optional[str]=None):
+    def collections(self, type: Optional[str] = None):
         """Selects observational products for a specific filter.
 
-        :param type (optional): optional collection type argument
+        :param type: optional collection type argument
         :return: a Products instance with collections filter applied
         """
-        clause = f'product_class eq "Product_Collection"'
+        clause = 'product_class eq "Product_Collection"'
         self.__add_clause(clause)
 
         if type:
@@ -137,7 +139,7 @@ class Products:
 
         :return: a Products instance with Product_Bundle filter applied
         """
-        clause = f'product_class eq "Product_Bundle"'
+        clause = 'product_class eq "Product_Bundle"'
         self.__add_clause(clause)
         return self
 
@@ -151,7 +153,7 @@ class Products:
         return self
 
     def has_processing_level(self, processing_level: PROCESSING_LEVELS = "raw"):
-        """Selects products with specific processing level
+        """Selects products with specific processing level.
 
         :param processing_level: telemetry, raw, partially-processed, calibrated, derived
         :return: a Products instance with processing level = Derived filter applied
