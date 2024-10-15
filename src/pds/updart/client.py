@@ -144,11 +144,20 @@ class Products:
         return self
 
     def has_instrument(self, id: str):
-        """Selects observational products for a specific filter.
+        """Selects products that have instrument.
 
         :return: a Products instance with Product_Observational class filter applied
         """
         clause = f'ref_lid_instrument eq "{id}"'
+        self.__add_clause(clause)
+        return self
+
+    def has_instrument_host(self, id: str):
+        """Selects products that have instrument host.
+
+        :return: a Products instance with Product_Observational class filter applied
+        """
+        clause = f'ref_lid_instrument_host eq "{id}"'
         self.__add_clause(clause)
         return self
 
