@@ -11,7 +11,8 @@ N/A
 
 Install with:
 
-    pip install updart
+    pip install pds.updart
+    
 
 
 
