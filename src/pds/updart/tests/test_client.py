@@ -1,83 +1,186 @@
 import unittest
 from datetime import datetime
+from typing import get_args
 
 import pds.updart as upd  # type: ignore
+from pds.api_client import PdsProduct
 
 
 class ClientTestCase(unittest.TestCase):
+    MAX_ITERATIONS = 1000
+
     def setUp(self) -> None:
-        pass
+        self.client = upd.PDSRegistryClient()
+        self.products = upd.Products(self.client)
 
     def test_all(self):
         """
-        Up to 1000 products
+        Up to MAX_ITERATIONS products
         :return:
         """
-        client = upd.PDSRegistryClient()
-        products = upd.Products(client)
         n = 0
-        for p in products:
+        for p in self.products:
             n += 1
-            print(p.id)
-            if n > 1000:
+            assert isinstance(p, PdsProduct)
+            if n > self.MAX_ITERATIONS:
                 break
+
         assert True
 
     def test_has_target(self):
-        client = upd.PDSRegistryClient()
-        products = upd.Products(client)
         lidvid = "urn:nasa:pds:context:target:asteroid.65803_didymos"
         n = 0
-        for p in products.has_target(lidvid):
+        for p in self.products.has_target(lidvid):
             n += 1
             assert lidvid in p.properties["ref_lid_target"]
-            if n > 1000:
+            if n > self.MAX_ITERATIONS:
+                break
+
+    def test_has_investigation(self):
+        lid = "urn:nasa:pds:context:investigation:individual_investigation.lab.hydrocarbon_spectra"
+        n = 0
+        for p in self.products.has_investigation(lid):
+            n += 1
+            assert lid in p.properties["ref_lid_investigation"]
+            if n > self.MAX_ITERATIONS:
                 break
 
     def test_before(self):
-        client = upd.PDSRegistryClient()
-        products = upd.Products(client)
         iso8601_date = "2005-07-06T05:50:23Z".replace("Z", "+00:00")
         date_ref = datetime.fromisoformat(iso8601_date)
         n = 0
-        for p in products.before(date_ref):
+        for p in self.products.before(date_ref):
             n += 1
             iso8601_date_found = p.start_date_time.replace("Z", "+00:00")
             date_found = datetime.fromisoformat(iso8601_date_found)
             assert date_found <= date_ref
-            if n > 1000:
+            if n > self.MAX_ITERATIONS:
                 break
 
     def test_after(self):
-        # TODO implement
-        pass
-
-    def test_products_of_collection(self):
-        client = upd.PDSRegistryClient()
-        products = upd.Products(client)
-        id = "urn:nasa:pds:apollo_pse:data_seed::1.0"
+        iso8601_date = "2005-07-07T05:50:23Z".replace("Z", "+00:00")
+        date_ref = datetime.fromisoformat(iso8601_date)
         n = 0
-        for p in products.of_collection(id):
+        for p in self.products.after(date_ref):
             n += 1
-            found_id = p.properties["ops:Provenance.ops:parent_collection_identifier"][0]
-            assert found_id == id
-            if n > 1000:
+            iso8601_date_found = p.start_date_time.replace("Z", "+00:00")
+            date_found = datetime.fromisoformat(iso8601_date_found)
+            assert date_found >= date_ref
+            if n > self.MAX_ITERATIONS:
                 break
 
     def test_before_and_has_target(self):
-        client = upd.PDSRegistryClient()
-        products = upd.Products(client)
         lidvid = "urn:nasa:pds:context:target:comet.9p_tempel_1"
         iso8601_date = "2005-07-06T05:47:25+00:00"
         date_ref = datetime.fromisoformat(iso8601_date)
         n = 0
-        for p in products.has_target(lidvid).before(date_ref):
+        for p in self.products.has_target(lidvid).before(date_ref):
             n += 1
             assert lidvid in p.properties["ref_lid_target"]
             iso8601_date_found = p.start_date_time.replace("Z", "+00:00")
             date_found = datetime.fromisoformat(iso8601_date_found)
             assert date_found <= date_ref
-            if n > 1000:
+            if n > self.MAX_ITERATIONS:
+                break
+
+    def test_products_of_collection(self):
+        lidvid = "urn:nasa:pds:apollo_pse:data_seed::1.0"
+        n = 0
+        for p in self.products.of_collection(lidvid):
+            n += 1
+            found_id = p.properties["ops:Provenance.ops:parent_collection_identifier"][0]
+            assert found_id == lidvid
+            if n > self.MAX_ITERATIONS:
+                break
+
+    def test_observationals(self):
+        n = 0
+        for p in self.products.observationals():
+            n += 1
+            assert "Product_Observational" in p.properties["product_class"]
+            if n > self.MAX_ITERATIONS:
+                break
+
+    def test_collections(self):
+        n = 0
+        for p in self.products.collections():
+            n += 1
+            assert "Product_Collection" in p.properties["product_class"]
+            if n > self.MAX_ITERATIONS:
+                break
+
+    def test_collections_with_type(self):
+        n = 0
+        types = ["Context", "Data", "Browse"]
+        for type in types:
+            try:
+                for p in self.products.collections(type=type):
+                    n += 1
+                    assert "Product_Collection" in p.properties["product_class"]
+                    assert type in p.properties["pds:Collection.pds:collection_type"]
+                    if n > self.MAX_ITERATIONS:
+                        break
+            except StopIteration:
+                pass
+
+    def test_bundles(self):
+        n = 0
+        for p in self.products.bundles():
+            n += 1
+            assert "Product_Bundle" in p.properties["product_class"]
+            if n > self.MAX_ITERATIONS:
+                break
+
+    def test_has_instrument(self):
+        lidvid = "urn:nasa:pds:context:instrument:cls.farir_beamline"
+        n = 0
+        for p in self.products.has_instrument(lidvid):
+            n += 1
+            assert lidvid in p.properties["ref_lid_instrument"]
+            if n > self.MAX_ITERATIONS:
+                break
+
+    def test_has_instrument_host(self):
+        lidvid = "urn:nasa:pds:context:instrument_host:spacecraft.insight"
+        n = 0
+        for p in self.products.has_instrument_host(lidvid):
+            n += 1
+            assert lidvid in p.properties["ref_lid_instrument_host"]
+            if n > self.MAX_ITERATIONS:
+                break
+
+    def test_has_processing_level(self):
+        for processing_level in get_args(upd.client.PROCESSING_LEVELS):
+            n = 0
+            try:
+                for p in self.products.has_processing_level(processing_level):
+                    n += 1
+                    assert processing_level.title() in p.properties["pds:Primary_Result_Summary.pds:processing_level"]
+                    if n > self.MAX_ITERATIONS:
+                        break
+            except StopIteration:
+                pass
+
+    def test_get(self):
+        lid = "urn:nasa:pds:lab.hydrocarbon_spectra:document:n2h2202k295k"
+        vid = "1.0"
+        lidvid = f"{lid}::{vid}"
+        n = 0
+        for p in self.products.get(lidvid):
+            n += 1
+            assert lid in p.properties["lid"]
+            assert vid in p.properties["vid"]
+            if n > self.MAX_ITERATIONS:
+                break
+
+    def test_filter(self):
+        node_name = "PDS_ATM"
+        clause = f'ops:Harvest_Info.ops:node_name eq "{node_name}"'
+        n = 0
+        for p in self.products.filter(clause):
+            n += 1
+            assert node_name in p.properties["ops:Harvest_Info.ops:node_name"]
+            if n > self.MAX_ITERATIONS:
                 break
 
 
