@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""PDS updart."""
+"""PDS peppi."""
 from .client import PDSRegistryClient  # noqa
 from .client import Products  # noqa
 
