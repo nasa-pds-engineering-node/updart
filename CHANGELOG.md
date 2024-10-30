@@ -1,12 +1,18 @@
 # Changelog
 
-## [«unknown»](https://github.com/NASA-PDS/updart/tree/«unknown») (2024-10-23)
+## [«unknown»](https://github.com/NASA-PDS/updart/tree/«unknown») (2024-10-30)
 
 [Full Changelog](https://github.com/NASA-PDS/updart/compare/v0.1.0...«unknown»)
 
 **Requirements:**
 
+- As a user, I want to filter on a specific processing level [\#35](https://github.com/NASA-PDS/updart/issues/35)
+- As a user, I want to search for bundle products only [\#34](https://github.com/NASA-PDS/updart/issues/34)
+- As a user, I want to search for collection products only [\#33](https://github.com/NASA-PDS/updart/issues/33)
 - As a user, I want to search for observational products only [\#32](https://github.com/NASA-PDS/updart/issues/32)
+- As a user, I want to search for products based upon a instrument LID [\#31](https://github.com/NASA-PDS/updart/issues/31)
+- As a user, I want to search for products based upon a investigation LID [\#30](https://github.com/NASA-PDS/updart/issues/30)
+- As a user, I want to search for products based upon a target LID [\#29](https://github.com/NASA-PDS/updart/issues/29)
 - As a user, I want to support search-after pagination [\#7](https://github.com/NASA-PDS/updart/issues/7)
 
 **Other closed issues:**
