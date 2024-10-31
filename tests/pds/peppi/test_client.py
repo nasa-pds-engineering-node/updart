@@ -2,7 +2,7 @@ import unittest
 from datetime import datetime
 from typing import get_args
 
-import pds.updart as upd  # type: ignore
+import pds.peppi as pep  # type: ignore
 from pds.api_client import PdsProduct
 
 
@@ -10,8 +10,8 @@ class ClientTestCase(unittest.TestCase):
     MAX_ITERATIONS = 1000
 
     def setUp(self) -> None:
-        self.client = upd.PDSRegistryClient()
-        self.products = upd.Products(self.client)
+        self.client = pep.PDSRegistryClient()
+        self.products = pep.Products(self.client)
 
     def test_all(self):
         """
@@ -150,7 +150,7 @@ class ClientTestCase(unittest.TestCase):
                 break
 
     def test_has_processing_level(self):
-        for processing_level in get_args(upd.client.PROCESSING_LEVELS):
+        for processing_level in get_args(pep.client.PROCESSING_LEVELS):
             n = 0
             try:
                 for p in self.products.has_processing_level(processing_level):

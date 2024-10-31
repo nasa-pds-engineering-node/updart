@@ -1,19 +1,18 @@
-# Updart, yoUr Planetary Data Art
+# Peppi
 
-Access planetary datasets from the Planetary Data System
+Access planetary datasets from the Planetary Data System (PDS)
 
 
 ## Prerequisites
 
 N/A
 
+
 ## User Quickstart
 
 Install with:
 
-    pip install pds.updart
-    
-
+    pip install peppi
 
 
 ## Code of Conduct
@@ -24,6 +23,7 @@ All users and developers of the NASA-PDS software are expected to abide by our [
 ## Development
 
 To develop this project, use your favorite text editor, or an integrated development environment with Python support, such as [PyCharm](https://www.jetbrains.com/pycharm/).
+
 
 ### Contributing
 
