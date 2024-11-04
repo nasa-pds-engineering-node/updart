@@ -1,27 +1,28 @@
 # Changelog
 
-## [«unknown»](https://github.com/NASA-PDS/updart/tree/«unknown») (2024-10-30)
+## [«unknown»](https://github.com/NASA-PDS/peppi/tree/«unknown») (2024-11-04)
 
-[Full Changelog](https://github.com/NASA-PDS/updart/compare/v0.1.0...«unknown»)
+[Full Changelog](https://github.com/NASA-PDS/peppi/compare/v0.1.0...«unknown»)
 
 **Requirements:**
 
-- As a user, I want to filter on a specific processing level [\#35](https://github.com/NASA-PDS/updart/issues/35)
-- As a user, I want to search for bundle products only [\#34](https://github.com/NASA-PDS/updart/issues/34)
-- As a user, I want to search for collection products only [\#33](https://github.com/NASA-PDS/updart/issues/33)
-- As a user, I want to search for observational products only [\#32](https://github.com/NASA-PDS/updart/issues/32)
-- As a user, I want to search for products based upon a instrument LID [\#31](https://github.com/NASA-PDS/updart/issues/31)
-- As a user, I want to search for products based upon a investigation LID [\#30](https://github.com/NASA-PDS/updart/issues/30)
-- As a user, I want to search for products based upon a target LID [\#29](https://github.com/NASA-PDS/updart/issues/29)
-- As a user, I want to support search-after pagination [\#7](https://github.com/NASA-PDS/updart/issues/7)
+- As a user, I want to filter on a specific processing level [\#35](https://github.com/NASA-PDS/peppi/issues/35)
+- As a user, I want to search for bundle products only [\#34](https://github.com/NASA-PDS/peppi/issues/34)
+- As a user, I want to search for collection products only [\#33](https://github.com/NASA-PDS/peppi/issues/33)
+- As a user, I want to search for observational products only [\#32](https://github.com/NASA-PDS/peppi/issues/32)
+- As a user, I want to search for products based upon a instrument LID [\#31](https://github.com/NASA-PDS/peppi/issues/31)
+- As a user, I want to search for products based upon a investigation LID [\#30](https://github.com/NASA-PDS/peppi/issues/30)
+- As a user, I want to search for products based upon a target LID [\#29](https://github.com/NASA-PDS/peppi/issues/29)
+- As a user, I want to support search-after pagination [\#7](https://github.com/NASA-PDS/peppi/issues/7)
 
 **Other closed issues:**
 
-- Support Francesco Apollo Seismic use case [\#22](https://github.com/NASA-PDS/updart/issues/22)
+- Rename the project and library on pypi "peppi" [\#43](https://github.com/NASA-PDS/peppi/issues/43)
+- Support Francesco Apollo Seismic use case [\#22](https://github.com/NASA-PDS/peppi/issues/22)
 
-## [v0.1.0](https://github.com/NASA-PDS/updart/tree/v0.1.0) (2024-02-29)
+## [v0.1.0](https://github.com/NASA-PDS/peppi/tree/v0.1.0) (2024-02-29)
 
-[Full Changelog](https://github.com/NASA-PDS/updart/compare/c5c69cbf9b198d2eb7b10d86c1c765fda90d7494...v0.1.0)
+[Full Changelog](https://github.com/NASA-PDS/peppi/compare/c5c69cbf9b198d2eb7b10d86c1c765fda90d7494...v0.1.0)
 
 
 
