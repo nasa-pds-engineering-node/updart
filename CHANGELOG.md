@@ -1,8 +1,16 @@
 # Changelog
 
-## [release/0.3.0](https://github.com/NASA-PDS/peppi/tree/release/0.3.0) (2024-11-04)
+## [0.1.0](https://github.com/NASA-PDS/peppi/tree/0.1.0) (2024-11-07)
 
-[Full Changelog](https://github.com/NASA-PDS/peppi/compare/v0.1.0...release/0.3.0)
+[Full Changelog](https://github.com/NASA-PDS/peppi/compare/v0.3.0...0.1.0)
+
+**Other closed issues:**
+
+- Improve the iterator loop according to Sean's proposal [\#51](https://github.com/NASA-PDS/peppi/issues/51)
+
+## [v0.3.0](https://github.com/NASA-PDS/peppi/tree/v0.3.0) (2024-11-04)
+
+[Full Changelog](https://github.com/NASA-PDS/peppi/compare/v0.1.0...v0.3.0)
 
 **Requirements:**
 
