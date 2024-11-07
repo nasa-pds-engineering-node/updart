@@ -12,7 +12,7 @@ N/A
 
 Install with:
 
-    pip install peppi
+    pip install pds.peppi
 
 
 ## Code of Conduct

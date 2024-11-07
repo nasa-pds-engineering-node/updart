@@ -27,6 +27,29 @@ class ClientTestCase(unittest.TestCase):
 
         assert True
 
+    def test_query_modification_during_pagination(self):
+        n = 0
+        for p in self.products:
+            n += 1
+            assert isinstance(p, PdsProduct)
+
+            if n > self.MAX_ITERATIONS:
+                # Attempt to modify the query clause while there are still results
+                # to paginate through. This should result in a RuntimeError.
+                with self.assertRaises(RuntimeError):
+                    self.products.observationals()
+
+                # Now reset the state on the Products instance. This should
+                # allow clauses to be added again
+                self.products.reset()
+
+                try:
+                    self.products.observationals()
+                except RuntimeError:
+                    self.fail("Unexpected RuntimeError raised")
+
+                break
+
     def test_has_target(self):
         lidvid = "urn:nasa:pds:context:target:asteroid.65803_didymos"
         n = 0
@@ -110,18 +133,16 @@ class ClientTestCase(unittest.TestCase):
                 break
 
     def test_collections_with_type(self):
-        n = 0
         types = ["Context", "Data", "Browse"]
         for type in types:
-            try:
-                for p in self.products.collections(type=type):
-                    n += 1
-                    assert "Product_Collection" in p.properties["product_class"]
-                    assert type in p.properties["pds:Collection.pds:collection_type"]
-                    if n > self.MAX_ITERATIONS:
-                        break
-            except StopIteration:
-                pass
+            n = 0
+            for p in self.products.collections(type=type):
+                n += 1
+                assert "Product_Collection" in p.properties["product_class"]
+                assert type in p.properties["pds:Collection.pds:collection_type"]
+                if n > self.MAX_ITERATIONS:
+                    self.products.reset()
+                    break
 
     def test_bundles(self):
         n = 0
@@ -152,14 +173,12 @@ class ClientTestCase(unittest.TestCase):
     def test_has_processing_level(self):
         for processing_level in get_args(pep.client.PROCESSING_LEVELS):
             n = 0
-            try:
-                for p in self.products.has_processing_level(processing_level):
-                    n += 1
-                    assert processing_level.title() in p.properties["pds:Primary_Result_Summary.pds:processing_level"]
-                    if n > self.MAX_ITERATIONS:
-                        break
-            except StopIteration:
-                pass
+            for p in self.products.has_processing_level(processing_level):
+                n += 1
+                assert processing_level.title() in p.properties["pds:Primary_Result_Summary.pds:processing_level"]
+                if n > self.MAX_ITERATIONS:
+                    self.products.reset()
+                    break
 
     def test_get(self):
         lid = "urn:nasa:pds:lab.hydrocarbon_spectra:document:n2h2202k295k"
