@@ -8,16 +8,13 @@ from pds.api_client import PdsProduct
 
 class ClientTestCase(unittest.TestCase):
     MAX_ITERATIONS = 1000
+    """Maximum number of iterations over query results to perform before ending test."""
 
     def setUp(self) -> None:
         self.client = pep.PDSRegistryClient()
         self.products = pep.Products(self.client)
 
     def test_all(self):
-        """
-        Up to MAX_ITERATIONS products
-        :return:
-        """
         n = 0
         for p in self.products:
             n += 1
@@ -133,13 +130,13 @@ class ClientTestCase(unittest.TestCase):
                 break
 
     def test_collections_with_type(self):
-        types = ["Context", "Data", "Browse"]
-        for type in types:
+        collection_types = ["Context", "Data", "Browse"]
+        for collection_type in collection_types:
             n = 0
-            for p in self.products.collections(type=type):
+            for p in self.products.collections(collection_type=collection_type):
                 n += 1
                 assert "Product_Collection" in p.properties["product_class"]
-                assert type in p.properties["pds:Collection.pds:collection_type"]
+                assert collection_type in p.properties["pds:Collection.pds:collection_type"]
                 if n > self.MAX_ITERATIONS:
                     self.products.reset()
                     break
