@@ -1,8 +1,12 @@
 # Changelog
 
-## [0.1.0](https://github.com/NASA-PDS/peppi/tree/0.1.0) (2024-11-07)
+## [«unknown»](https://github.com/NASA-PDS/peppi/tree/«unknown») (2024-11-14)
 
-[Full Changelog](https://github.com/NASA-PDS/peppi/compare/v0.3.0...0.1.0)
+[Full Changelog](https://github.com/NASA-PDS/peppi/compare/v0.3.0...«unknown»)
+
+**Requirements:**
+
+- As a user, I want to see an online reference documentation of the library [\#47](https://github.com/NASA-PDS/peppi/issues/47)
 
 **Other closed issues:**
 
@@ -30,11 +34,7 @@
 
 ## [v0.1.0](https://github.com/NASA-PDS/peppi/tree/v0.1.0) (2024-02-29)
 
-[Full Changelog](https://github.com/NASA-PDS/peppi/compare/release/0.1.0...v0.1.0)
-
-## [release/0.1.0](https://github.com/NASA-PDS/peppi/tree/release/0.1.0) (2024-02-29)
-
-[Full Changelog](https://github.com/NASA-PDS/peppi/compare/c5c69cbf9b198d2eb7b10d86c1c765fda90d7494...release/0.1.0)
+[Full Changelog](https://github.com/NASA-PDS/peppi/compare/c5c69cbf9b198d2eb7b10d86c1c765fda90d7494...v0.1.0)
 
 
 
