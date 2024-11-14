@@ -1,225 +1,532 @@
-
-
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>peppi &mdash; Peppi  documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
-
-  
-  
-  
-  
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/theme_overrides.css?v=0c24fe83" />
 
   
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Contact Us" href="support/contact.html" />
     <link rel="prev" title="PDS Peppi" href="index.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Peppi
           
-
-          
-            
-            <img src="_static/PDS_Planets.png" class="logo" alt="Logo"/>
-          
+          <a href="index.html" class="icon icon-home">
+            Peppi
+              <img src="_static/PDS_Planets.png" class="logo" alt="Logo"/>
           </a>
-
-          
-            
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">peppi</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">peppi</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pds.peppi.client.DEFAULT_API_BASE_URL"><code class="docutils literal notranslate"><span class="pre">DEFAULT_API_BASE_URL</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pds.peppi.client.PDSRegistryClient"><code class="docutils literal notranslate"><span class="pre">PDSRegistryClient</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pds.peppi.client.PDSRegistryClient.__init__"><code class="docutils literal notranslate"><span class="pre">PDSRegistryClient.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pds.peppi.client.PDSRegistryClient.__weakref__"><code class="docutils literal notranslate"><span class="pre">PDSRegistryClient.__weakref__</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pds.peppi.client.PROCESSING_LEVELS"><code class="docutils literal notranslate"><span class="pre">PROCESSING_LEVELS</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pds.peppi.client.Products"><code class="docutils literal notranslate"><span class="pre">Products</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pds.peppi.client.Products.PAGE_SIZE"><code class="docutils literal notranslate"><span class="pre">Products.PAGE_SIZE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pds.peppi.client.Products.SORT_PROPERTY"><code class="docutils literal notranslate"><span class="pre">Products.SORT_PROPERTY</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pds.peppi.client.Products.__add_clause"><code class="docutils literal notranslate"><span class="pre">Products.__add_clause()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pds.peppi.client.Products.__init__"><code class="docutils literal notranslate"><span class="pre">Products.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pds.peppi.client.Products.__iter__"><code class="docutils literal notranslate"><span class="pre">Products.__iter__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pds.peppi.client.Products.__weakref__"><code class="docutils literal notranslate"><span class="pre">Products.__weakref__</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pds.peppi.client.Products._init_new_page"><code class="docutils literal notranslate"><span class="pre">Products._init_new_page()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pds.peppi.client.Products.after"><code class="docutils literal notranslate"><span class="pre">Products.after()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pds.peppi.client.Products.before"><code class="docutils literal notranslate"><span class="pre">Products.before()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pds.peppi.client.Products.bundles"><code class="docutils literal notranslate"><span class="pre">Products.bundles()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pds.peppi.client.Products.collections"><code class="docutils literal notranslate"><span class="pre">Products.collections()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pds.peppi.client.Products.filter"><code class="docutils literal notranslate"><span class="pre">Products.filter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pds.peppi.client.Products.get"><code class="docutils literal notranslate"><span class="pre">Products.get()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pds.peppi.client.Products.has_instrument"><code class="docutils literal notranslate"><span class="pre">Products.has_instrument()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pds.peppi.client.Products.has_instrument_host"><code class="docutils literal notranslate"><span class="pre">Products.has_instrument_host()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pds.peppi.client.Products.has_investigation"><code class="docutils literal notranslate"><span class="pre">Products.has_investigation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pds.peppi.client.Products.has_processing_level"><code class="docutils literal notranslate"><span class="pre">Products.has_processing_level()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pds.peppi.client.Products.has_target"><code class="docutils literal notranslate"><span class="pre">Products.has_target()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pds.peppi.client.Products.observationals"><code class="docutils literal notranslate"><span class="pre">Products.observationals()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pds.peppi.client.Products.of_collection"><code class="docutils literal notranslate"><span class="pre">Products.of_collection()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pds.peppi.client.Products.reset"><code class="docutils literal notranslate"><span class="pre">Products.reset()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="support/contact.html">Contact Us</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support/contribute.html">Contribute</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support/contribute.html#report-a-bug-or-new-feature-request">Report a Bug or New Feature Request</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support/help.html">Help</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">Peppi</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-        
-      <li>peppi</li>
-    
-    
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">peppi</li>
       <li class="wy-breadcrumbs-aside">
-        
-            
-            
               <a href="https://github.com/nasa-pds/peppi/blob/main/docs/source/peppi.rst" class="fa fa-github"> Edit on GitHub</a>
-            
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="peppi">
-<h1>peppi<a class="headerlink" href="#peppi" title="Permalink to this headline">¶</a></h1>
+             
+  <section id="peppi">
+<h1>peppi<a class="headerlink" href="#peppi" title="Link to this heading"></a></h1>
 <p><code class="docutils literal notranslate"><span class="pre">pds.peppi</span></code> is the main module containing all Peppi classes and functions.</p>
 <p>pds.peppi.client</p>
-</div>
+<p id="module-pds.peppi.client">PDS Registry Client related classes.</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="pds.peppi.client.DEFAULT_API_BASE_URL">
+<span class="sig-prename descclassname"><span class="pre">pds.peppi.client.</span></span><span class="sig-name descname"><span class="pre">DEFAULT_API_BASE_URL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://pds.nasa.gov/api/search/1'</span></em><a class="headerlink" href="#pds.peppi.client.DEFAULT_API_BASE_URL" title="Link to this definition"></a></dt>
+<dd><p>Default URL used when querying PDS API</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pds.peppi.client.PDSRegistryClient">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pds.peppi.client.</span></span><span class="sig-name descname"><span class="pre">PDSRegistryClient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'https://pds.nasa.gov/api/search/1'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pds/peppi/client.html#PDSRegistryClient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pds.peppi.client.PDSRegistryClient" title="Link to this definition"></a></dt>
+<dd><p>Used to connect and interface with the PDS Registry.</p>
+<section id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>api_client<span class="classifier">pds.api_client.ApiClient</span></dt><dd><p>Object used to interact with the PDS Registry API</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pds.peppi.client.PDSRegistryClient.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'https://pds.nasa.gov/api/search/1'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pds/peppi/client.html#PDSRegistryClient.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pds.peppi.client.PDSRegistryClient.__init__" title="Link to this definition"></a></dt>
+<dd><p>Creates a new instance of PDSRegistryClient.</p>
+<section id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>base_url: str, optional</dt><dd><dl class="simple">
+<dt>The base endpoint URL of the PDS Registry API. The default value is</dt><dd><p>the official production server, can be specified otherwise.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pds.peppi.client.PDSRegistryClient.__weakref__">
+<span class="sig-name descname"><span class="pre">__weakref__</span></span><a class="headerlink" href="#pds.peppi.client.PDSRegistryClient.__weakref__" title="Link to this definition"></a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+</section>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="pds.peppi.client.PROCESSING_LEVELS">
+<span class="sig-prename descclassname"><span class="pre">pds.peppi.client.</span></span><span class="sig-name descname"><span class="pre">PROCESSING_LEVELS</span></span><a class="headerlink" href="#pds.peppi.client.PROCESSING_LEVELS" title="Link to this definition"></a></dt>
+<dd><p>Processing level values that can be used with has_processing_level()</p>
+<p>alias of <code class="xref py py-obj docutils literal notranslate"><span class="pre">Literal</span></code>[‘telemetry’, ‘raw’, ‘partially-processed’, ‘calibrated’, ‘derived’]</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pds.peppi.client.Products">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pds.peppi.client.</span></span><span class="sig-name descname"><span class="pre">Products</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pds.peppi.client.PDSRegistryClient" title="pds.peppi.client.PDSRegistryClient"><span class="pre">PDSRegistryClient</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pds/peppi/client.html#Products"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pds.peppi.client.Products" title="Link to this definition"></a></dt>
+<dd><p>Use to access any class of planetary products via the PDS Registry API.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pds.peppi.client.Products.PAGE_SIZE">
+<span class="sig-name descname"><span class="pre">PAGE_SIZE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">100</span></em><a class="headerlink" href="#pds.peppi.client.Products.PAGE_SIZE" title="Link to this definition"></a></dt>
+<dd><p>Default number of results returned in each page fetch from the PDS API.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pds.peppi.client.Products.SORT_PROPERTY">
+<span class="sig-name descname"><span class="pre">SORT_PROPERTY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ops:Harvest_Info.ops:harvest_date_time'</span></em><a class="headerlink" href="#pds.peppi.client.Products.SORT_PROPERTY" title="Link to this definition"></a></dt>
+<dd><p>Default property to sort results of a query by.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pds.peppi.client.Products.__add_clause">
+<span class="sig-name descname"><span class="pre">__add_clause</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clause</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pds.peppi.client.Products.__add_clause" title="Link to this definition"></a></dt>
+<dd><p>Adds the provided clause to the query string to use on the next fetch of products from the Registry API.</p>
+<p>Repeated calls to this method results in a joining with any previously
+added clauses via Logical AND.</p>
+<p>Lazy evaluation is used to only apply the filter when one iterates on this
+Products instance. This way, multiple filters can be combined before the
+request is actually sent.</p>
+<section id="notes">
+<h2>Notes<a class="headerlink" href="#notes" title="Link to this heading"></a></h2>
+<p>This method should not be called while there are still results to
+iterate over from a previous query, as this could affect the results
+of the next page fetch. The <cite>reset()</cite> method may be used to abandon
+a query in progress so that this method may be called safely again.</p>
+</section>
+<section id="id1">
+<h2>Parameters<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>clause<span class="classifier">str</span></dt><dd><p>The query clause to append. Clause should match the domain language
+expected by the PDS Registry API</p>
+</dd>
+</dl>
+</section>
+<section id="raises">
+<h2>Raises<a class="headerlink" href="#raises" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>RuntimeError</dt><dd><p>If this method is called while there are still results to be iterated
+over from a previous query.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pds.peppi.client.Products.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pds.peppi.client.PDSRegistryClient" title="pds.peppi.client.PDSRegistryClient"><span class="pre">PDSRegistryClient</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pds/peppi/client.html#Products.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pds.peppi.client.Products.__init__" title="Link to this definition"></a></dt>
+<dd><p>Creates a new instance of the Products class.</p>
+<section id="id2">
+<h2>Parameters<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>client: PDSRegistryClient</dt><dd><p>The client object used to interact with the PDS Registry API.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pds.peppi.client.Products.__iter__">
+<span class="sig-name descname"><span class="pre">__iter__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pds/peppi/client.html#Products.__iter__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pds.peppi.client.Products.__iter__" title="Link to this definition"></a></dt>
+<dd><p>Iterates over all products returned by the current query filter applied to this Products instance.</p>
+<p>This method handles pagination automatically by fetching additional pages
+from the PDS Registry API as needed. Once all available pages and results
+have been yielded, this method will reset this Products instance to a
+default state which can be used to perform a new query.</p>
+<section id="yields">
+<h2>Yields<a class="headerlink" href="#yields" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>product<span class="classifier">pds.api_client.models.pds_product.PDSProduct</span></dt><dd><p>The next product within the current page fetched from the PDS Registry
+API.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pds.peppi.client.Products.__weakref__">
+<span class="sig-name descname"><span class="pre">__weakref__</span></span><a class="headerlink" href="#pds.peppi.client.Products.__weakref__" title="Link to this definition"></a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pds.peppi.client.Products._init_new_page">
+<span class="sig-name descname"><span class="pre">_init_new_page</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pds/peppi/client.html#Products._init_new_page"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pds.peppi.client.Products._init_new_page" title="Link to this definition"></a></dt>
+<dd><p>Quieries the PDS API for the next page of results.</p>
+<p>Any query clauses associated to this Products instance are included here.</p>
+<p>If there are results remaining from the previously acquired page,
+they are yieled on each subsequent call to this method.</p>
+<section id="id3">
+<h2>Yields<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>product<span class="classifier">pds.api_client.models.pds_product.PDSProduct</span></dt><dd><p>The next product within the current page fetched from the PDS Registry
+API.</p>
+</dd>
+</dl>
+</section>
+<section id="id4">
+<h2>Raises<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>StopIteration</dt><dd><p>Once all available pages of query results have been exhausted.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pds.peppi.client.Products.after">
+<span class="sig-name descname"><span class="pre">after</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pds/peppi/client.html#Products.after"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pds.peppi.client.Products.after" title="Link to this definition"></a></dt>
+<dd><p>Adds a query clause selecting products with an end date after the given datetime.</p>
+<section id="id5">
+<h2>Parameters<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>dt<span class="classifier">datetime.datetime</span></dt><dd><p>Datetime object containing the desired time.</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h2>Returns<a class="headerlink" href="#returns" title="Link to this heading"></a></h2>
+<p>This Products instance with the “before” filter applied.</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pds.peppi.client.Products.before">
+<span class="sig-name descname"><span class="pre">before</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pds/peppi/client.html#Products.before"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pds.peppi.client.Products.before" title="Link to this definition"></a></dt>
+<dd><p>Adds a query clause selecting products with a start date before the given datetime.</p>
+<section id="id6">
+<h2>Parameters<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>dt<span class="classifier">datetime.datetime</span></dt><dd><p>Datetime object containing the desired time.</p>
+</dd>
+</dl>
+</section>
+<section id="id7">
+<h2>Returns<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<p>This Products instance with the “before” filter applied.</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pds.peppi.client.Products.bundles">
+<span class="sig-name descname"><span class="pre">bundles</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pds/peppi/client.html#Products.bundles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pds.peppi.client.Products.bundles" title="Link to this definition"></a></dt>
+<dd><p>Adds a query clause selecting only “Bundle” type products on the current filter.</p>
+<section id="id8">
+<h2>Returns<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<p>This Products instance with the “Product Bundle” filter applied.</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pds.peppi.client.Products.collections">
+<span class="sig-name descname"><span class="pre">collections</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">collection_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pds/peppi/client.html#Products.collections"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pds.peppi.client.Products.collections" title="Link to this definition"></a></dt>
+<dd><p>Adds a query clause selecting only “Product Collection” type products on the current filter.</p>
+<section id="id9">
+<h2>Parameters<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>collection_type<span class="classifier">str, optional</span></dt><dd><p>Collection type to filter on. If not provided, all collection types
+are included.</p>
+</dd>
+</dl>
+</section>
+<section id="id10">
+<h2>Returns<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<p>This Products instance with the “Product Collection” filter applied.</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pds.peppi.client.Products.filter">
+<span class="sig-name descname"><span class="pre">filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clause</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pds/peppi/client.html#Products.filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pds.peppi.client.Products.filter" title="Link to this definition"></a></dt>
+<dd><p>Selects products that match the provided query clause.</p>
+<section id="id11">
+<h2>Parameters<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>clause<span class="classifier">str</span></dt><dd><p>A custom query clause.</p>
+</dd>
+</dl>
+</section>
+<section id="id12">
+<h2>Returns<a class="headerlink" href="#id12" title="Link to this heading"></a></h2>
+<p>This Products instance with the provided filtering clause applied.</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pds.peppi.client.Products.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">identifier</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pds/peppi/client.html#Products.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pds.peppi.client.Products.get" title="Link to this definition"></a></dt>
+<dd><p>Adds a query clause selecting the product with a LIDVID matching the provided value.</p>
+<section id="id13">
+<h2>Parameters<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>identifier<span class="classifier">str</span></dt><dd><p>LIDVID of the product to filter for.</p>
+</dd>
+</dl>
+</section>
+<section id="id14">
+<h2>Returns<a class="headerlink" href="#id14" title="Link to this heading"></a></h2>
+<p>This Products instance with the “LIDVID identifier” filter applied.</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pds.peppi.client.Products.has_instrument">
+<span class="sig-name descname"><span class="pre">has_instrument</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">identifier</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pds/peppi/client.html#Products.has_instrument"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pds.peppi.client.Products.has_instrument" title="Link to this definition"></a></dt>
+<dd><p>Adds a query clause selecting products having an instrument matching the provided identifier.</p>
+<section id="id15">
+<h2>Parameters<a class="headerlink" href="#id15" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>identifier<span class="classifier">str</span></dt><dd><p>Identifier (LIDVID) of the instrument.</p>
+</dd>
+</dl>
+</section>
+<section id="id16">
+<h2>Returns<a class="headerlink" href="#id16" title="Link to this heading"></a></h2>
+<p>This Products instance with the “has instrument” filter applied.</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pds.peppi.client.Products.has_instrument_host">
+<span class="sig-name descname"><span class="pre">has_instrument_host</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">identifier</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pds/peppi/client.html#Products.has_instrument_host"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pds.peppi.client.Products.has_instrument_host" title="Link to this definition"></a></dt>
+<dd><p>Adds a query clause selecting products having an instrument host matching the provided identifier.</p>
+<section id="id17">
+<h2>Parameters<a class="headerlink" href="#id17" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>identifier<span class="classifier">str</span></dt><dd><p>Identifier (LIDVID) of the instrument host.</p>
+</dd>
+</dl>
+</section>
+<section id="id18">
+<h2>Returns<a class="headerlink" href="#id18" title="Link to this heading"></a></h2>
+<p>This Products instance with the “has instrument host” filter applied.</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pds.peppi.client.Products.has_investigation">
+<span class="sig-name descname"><span class="pre">has_investigation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">identifier</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pds/peppi/client.html#Products.has_investigation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pds.peppi.client.Products.has_investigation" title="Link to this definition"></a></dt>
+<dd><p>Adds a query clause selecting products having a given investigation identifier.</p>
+<section id="id19">
+<h2>Parameters<a class="headerlink" href="#id19" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>identifier<span class="classifier">str</span></dt><dd><p>Identifier (LIDVID) of the target.</p>
+</dd>
+</dl>
+</section>
+<section id="id20">
+<h2>Returns<a class="headerlink" href="#id20" title="Link to this heading"></a></h2>
+<p>This Products instance with the “has investigation” query filter applied.</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pds.peppi.client.Products.has_processing_level">
+<span class="sig-name descname"><span class="pre">has_processing_level</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">processing_level</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'telemetry'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'raw'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'partially-processed'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'calibrated'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'derived'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'raw'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pds/peppi/client.html#Products.has_processing_level"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pds.peppi.client.Products.has_processing_level" title="Link to this definition"></a></dt>
+<dd><p>Adds a query clause selecting products with a specific processing level.</p>
+<section id="id21">
+<h2>Parameters<a class="headerlink" href="#id21" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>processing_level<span class="classifier">str, optional</span></dt><dd><p>The processing level to filter on. Must be one of “telemetry”, “raw”,
+“partially-processed”, “calibrated”, or “derived”. Defaults to “raw”.</p>
+</dd>
+</dl>
+</section>
+<section id="id22">
+<h2>Returns<a class="headerlink" href="#id22" title="Link to this heading"></a></h2>
+<p>This Products instance with the “has processing level” filter applied.</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pds.peppi.client.Products.has_target">
+<span class="sig-name descname"><span class="pre">has_target</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">identifier</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pds/peppi/client.html#Products.has_target"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pds.peppi.client.Products.has_target" title="Link to this definition"></a></dt>
+<dd><p>Adds a query clause selecting products having a given target identifier.</p>
+<section id="id23">
+<h2>Parameters<a class="headerlink" href="#id23" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>identifier<span class="classifier">str</span></dt><dd><p>Identifier (LIDVID) of the target.</p>
+</dd>
+</dl>
+</section>
+<section id="id24">
+<h2>Returns<a class="headerlink" href="#id24" title="Link to this heading"></a></h2>
+<p>This Products instance with the “has target” query filter applied.</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pds.peppi.client.Products.observationals">
+<span class="sig-name descname"><span class="pre">observationals</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pds/peppi/client.html#Products.observationals"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pds.peppi.client.Products.observationals" title="Link to this definition"></a></dt>
+<dd><p>Adds a query clause selecting only “Product Observational” type products on the current filter.</p>
+<section id="id25">
+<h2>Returns<a class="headerlink" href="#id25" title="Link to this heading"></a></h2>
+<p>This Products instance with the “Observational Product” filter applied.</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pds.peppi.client.Products.of_collection">
+<span class="sig-name descname"><span class="pre">of_collection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">identifier</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pds/peppi/client.html#Products.of_collection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pds.peppi.client.Products.of_collection" title="Link to this definition"></a></dt>
+<dd><p>Adds a query clause selecting products belonging to the given Parent Collection identifier.</p>
+<section id="id26">
+<h2>Parameters<a class="headerlink" href="#id26" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>identifier<span class="classifier">str</span></dt><dd><p>Identifier (LIDVID) of the Collection.</p>
+</dd>
+</dl>
+</section>
+<section id="id27">
+<h2>Returns<a class="headerlink" href="#id27" title="Link to this heading"></a></h2>
+<p>This Products instance with the “Parent Collection” filter applied.</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pds.peppi.client.Products.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pds/peppi/client.html#Products.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pds.peppi.client.Products.reset" title="Link to this definition"></a></dt>
+<dd><p>Resets internal pagination state to default.</p>
+<p>This method should be called before making any modifications to the
+query clause stored by this Products instance while still paginating
+through the results of a previous query.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="support/contact.html" class="btn btn-neutral float-right" title="Contact Us" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="index.html" class="btn btn-neutral float-left" title="PDS Peppi" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="PDS Peppi" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="support/contact.html" class="btn btn-neutral float-right" title="Contact Us" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        
-        &copy; Copyright 2024 California Institute of Technology
-
-    </p>
+    <p>&#169; Copyright 2024 California Institute of Technology.</p>
   </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>
