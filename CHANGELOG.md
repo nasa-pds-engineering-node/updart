@@ -1,8 +1,8 @@
 # Changelog
 
-## [«unknown»](https://github.com/NASA-PDS/peppi/tree/«unknown») (2024-11-14)
+## [release/0.4.0](https://github.com/NASA-PDS/peppi/tree/release/0.4.0) (2024-11-14)
 
-[Full Changelog](https://github.com/NASA-PDS/peppi/compare/v0.3.0...«unknown»)
+[Full Changelog](https://github.com/NASA-PDS/peppi/compare/v0.3.0...release/0.4.0)
 
 **Requirements:**
 
