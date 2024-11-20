@@ -24,6 +24,31 @@ class ClientTestCase(unittest.TestCase):
 
         assert True
 
+    def test_fields(self):
+        selected_fields = ["pds:Primary_Result_Summary.pds:processing_level", "pds:File.pds:file_name"]
+        non_selected_fields_examples = ["pds:Time_Coordinates.pds:stop_date_time", "pds:Identification_Area.pds:title"]
+        for p in self.products.fields(selected_fields):
+            break
+
+        for field in selected_fields:
+            assert field in p.properties
+
+        for field in non_selected_fields_examples:
+            assert field not in p.properties
+
+    def test_as_dataframe(self):
+        selected_fields = ["pds:Time_Coordinates.pds:start_date_time", "pds:Time_Coordinates.pds:stop_date_time"]
+        df = (
+            self.products.of_collection("urn:nasa:pds:apollo_pse:data_seed::1.0")
+            .fields(selected_fields)
+            .as_dataframe(max_rows=10)
+        )
+
+        assert len(df) == 10
+
+        for field in selected_fields:
+            assert field in df.columns
+
     def test_query_modification_during_pagination(self):
         n = 0
         for p in self.products:

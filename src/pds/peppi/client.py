@@ -4,6 +4,7 @@ from datetime import datetime
 from typing import Literal
 from typing import Optional
 
+import pandas as pd
 from pds.api_client import ApiClient
 from pds.api_client import Configuration
 from pds.api_client.api.all_products_api import AllProductsApi
@@ -62,6 +63,7 @@ class Products:
         """
         self._products = AllProductsApi(client.api_client)
         self._q_string = ""
+        self._fields: list[str] = []
         self._latest_harvest_time = None
         self._page_counter = None
         self._expected_pages = None
@@ -311,6 +313,14 @@ class Products:
         self.__add_clause(f'lidvid like "{identifier}"')
         return self
 
+    def fields(self, fields: list):
+        """Reduce the list of fields returned, for improved efficiency."""
+        self._fields = fields
+        if self.SORT_PROPERTY not in self._fields:
+            self._fields.append(self.SORT_PROPERTY)
+
+        return self
+
     def filter(self, clause: str):
         """Selects products that match the provided query clause.
 
@@ -327,7 +337,7 @@ class Products:
         return self
 
     def _init_new_page(self):
-        """Quieries the PDS API for the next page of results.
+        """Queries the PDS API for the next page of results.
 
         Any query clauses associated to this Products instance are included here.
 
@@ -358,6 +368,9 @@ class Products:
 
         if len(self._q_string) > 0:
             kwargs["q"] = f"({self._q_string})"
+
+        if len(self._fields) > 0:
+            kwargs["fields"] = self._fields
 
         results = self._products.product_list(**kwargs)
 
@@ -419,3 +432,31 @@ class Products:
         self._expected_pages = None
         self._page_counter = None
         self._latest_harvest_time = None
+
+    def as_dataframe(self, max_rows: Optional[int] = None):
+        """Returns the found products as a pandas DataFrame.
+
+        Loops on the products found and returns a pandas DataFrame with the product properties as columns
+        and their identifier as index.
+
+        Parameters
+        ----------
+        max_rows : int
+            Optional limit in the number of products returned in the dataframe. Convenient for test while developing.
+            Default is no limit (None)
+
+        Returns
+        -------
+        The products as a pandas dataframe.
+        """
+        result_as_dict_list = []
+        lidvid_index = []
+        n = 0
+        for p in self:
+            result_as_dict_list.append(p.properties)
+            lidvid_index.append(p.id)
+            n += 1
+            if max_rows and n >= max_rows:
+                break
+
+        return pd.DataFrame.from_records(result_as_dict_list, index=lidvid_index)
