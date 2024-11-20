@@ -49,6 +49,12 @@ class ClientTestCase(unittest.TestCase):
         for field in selected_fields:
             assert field in df.columns
 
+        assert isinstance(df["pds:Time_Coordinates.pds:start_date_time"].iloc[0], str)
+
+    def test_empty_dataframe(self):
+        df = self.products.of_collection("non_existing_collection").as_dataframe()
+        assert df is None
+
     def test_query_modification_during_pagination(self):
         n = 0
         for p in self.products:

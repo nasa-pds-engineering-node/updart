@@ -459,4 +459,16 @@ class Products:
             if max_rows and n >= max_rows:
                 break
 
-        return pd.DataFrame.from_records(result_as_dict_list, index=lidvid_index)
+        if n > 0:
+            df = pd.DataFrame.from_records(result_as_dict_list, index=lidvid_index)
+            # reduce useless arrays in dataframe columns
+            for column in df.columns:
+                only_1_element = df.apply(lambda x: len(x[column]) <= 1, axis=1)  # noqa
+                if only_1_element.all():
+                    df[column] = df.apply(lambda x: x[column][0], axis=1)  # noqa
+            return df
+        else:
+            logger.warning(
+                "Query with clause %s did not return any products. No dataframe created returns None", self._q_string
+            )
+            return None
