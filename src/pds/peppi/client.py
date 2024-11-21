@@ -316,6 +316,7 @@ class Products:
     def fields(self, fields: list):
         """Reduce the list of fields returned, for improved efficiency."""
         self._fields = fields
+        # The sort property is used for pagination
         if self.SORT_PROPERTY not in self._fields:
             self._fields.append(self.SORT_PROPERTY)
 
@@ -468,7 +469,5 @@ class Products:
                     df[column] = df.apply(lambda x: x[column][0], axis=1)  # noqa
             return df
         else:
-            logger.warning(
-                "Query with clause %s did not return any products. No dataframe created returns None", self._q_string
-            )
+            logger.warning("Query with clause %s did not return any products.", self._q_string)
             return None
