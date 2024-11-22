@@ -45,6 +45,7 @@ class PDSRegistryClient:
 
 class QueryBuilder:
     """QueryBuilder provides method to elaborate complex PDS queries."""
+
     def __init__(self):
         """Creates a new instance of the QueryBuilder class.
 
@@ -330,6 +331,7 @@ class QueryBuilder:
 
 class ResultSet:
     """ResultSet of products on which a query has been applied. Iterable."""
+
     SORT_PROPERTY = "ops:Harvest_Info.ops:harvest_date_time"
     """Default property to sort results of a query by."""
 
@@ -489,6 +491,7 @@ class ResultSet:
 
 class Products(ResultSet):
     """Products ResultSet."""
+
     def __init__(self, client: PDSRegistryClient, query: QueryBuilder):
         """Constructor of Products."""
         super().__init__(client, query._q_string, query._fields)
