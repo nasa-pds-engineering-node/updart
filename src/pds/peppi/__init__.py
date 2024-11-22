@@ -2,6 +2,7 @@
 """PDS peppi."""
 from .client import PDSRegistryClient  # noqa
 from .client import Products  # noqa
+from .client import QueryBuilder  # noqa
 
 # For future consideration:
 #

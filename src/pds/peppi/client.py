@@ -43,17 +43,10 @@ class PDSRegistryClient:
         self.api_client = ApiClient(configuration)
 
 
-class Products:
-    """Use to access any class of planetary products via the PDS Registry API."""
-
-    SORT_PROPERTY = "ops:Harvest_Info.ops:harvest_date_time"
-    """Default property to sort results of a query by."""
-
-    PAGE_SIZE = 100
-    """Default number of results returned in each page fetch from the PDS API."""
-
-    def __init__(self, client: PDSRegistryClient):
-        """Creates a new instance of the Products class.
+class QueryBuilder:
+    """QueryBuilder provides method to elaborate complex PDS queries."""
+    def __init__(self):
+        """Creates a new instance of the QueryBuilder class.
 
         Parameters
         ----------
@@ -61,12 +54,8 @@ class Products:
             The client object used to interact with the PDS Registry API.
 
         """
-        self._products = AllProductsApi(client.api_client)
         self._q_string = ""
         self._fields: list[str] = []
-        self._latest_harvest_time = None
-        self._page_counter = None
-        self._expected_pages = None
 
     def __add_clause(self, clause):
         """Adds the provided clause to the query string to use on the next fetch of products from the Registry API.
@@ -98,12 +87,13 @@ class Products:
             over from a previous query.
 
         """
-        if self._page_counter or self._expected_pages:
-            raise RuntimeError(
-                "Cannot modify query while paginating over previous query results.\n"
-                "Use the reset() method on this Products instance or exhaust all returned "
-                "results before assigning new query clauses."
-            )
+        # not needed if we split query and resultSet
+        # if self._page_counter or self._expected_pages:
+        #    raise RuntimeError(
+        #        "Cannot modify query while paginating over previous query results.\n"
+        #        "Use the reset() method on this Products instance or exhaust all returned "
+        #        "results before assigning new query clauses."
+        #    )
 
         clause = f"({clause})"
         if self._q_string:
@@ -316,10 +306,6 @@ class Products:
     def fields(self, fields: list):
         """Reduce the list of fields returned, for improved efficiency."""
         self._fields = fields
-        # The sort property is used for pagination
-        if self.SORT_PROPERTY not in self._fields:
-            self._fields.append(self.SORT_PROPERTY)
-
         return self
 
     def filter(self, clause: str):
@@ -336,6 +322,28 @@ class Products:
         """
         self.__add_clause(clause)
         return self
+
+    def crack(self, client: PDSRegistryClient):
+        """Evaluates the query against a specific client connexion and returns a ResultSet."""
+        return ResultSet(client, self._q_string, self._fields)
+
+
+class ResultSet:
+    """ResultSet of products on which a query has been applied. Iterable."""
+    SORT_PROPERTY = "ops:Harvest_Info.ops:harvest_date_time"
+    """Default property to sort results of a query by."""
+
+    PAGE_SIZE = 100
+    """Default number of results returned in each page fetch from the PDS API."""
+
+    def __init__(self, client: PDSRegistryClient, q_string: str, fields: list):
+        """Constructor of the ResultSet."""
+        self._products = AllProductsApi(client.api_client)
+        self._q_string = (q_string,)
+        self._fields = fields
+        self._latest_harvest_time = None
+        self._page_counter = None
+        self._expected_pages = None
 
     def _init_new_page(self):
         """Queries the PDS API for the next page of results.
@@ -371,6 +379,10 @@ class Products:
             kwargs["q"] = f"({self._q_string})"
 
         if len(self._fields) > 0:
+            # The sort property is used for pagination
+            if self.SORT_PROPERTY not in self._fields:
+                self._fields.append(self.SORT_PROPERTY)
+
             kwargs["fields"] = self._fields
 
         results = self._products.product_list(**kwargs)
@@ -430,6 +442,7 @@ class Products:
 
         """
         self._q_string = ""
+        self._fields = []
         self._expected_pages = None
         self._page_counter = None
         self._latest_harvest_time = None
@@ -459,6 +472,7 @@ class Products:
             n += 1
             if max_rows and n >= max_rows:
                 break
+        self.reset()
 
         if n > 0:
             df = pd.DataFrame.from_records(result_as_dict_list, index=lidvid_index)
@@ -471,3 +485,17 @@ class Products:
         else:
             logger.warning("Query with clause %s did not return any products.", self._q_string)
             return None
+
+
+class Products(ResultSet):
+    """Products ResultSet."""
+    def __init__(self, client: PDSRegistryClient, query: QueryBuilder):
+        """Constructor of Products."""
+        super().__init__(client, query._q_string, query._fields)
+
+
+# class Products(QueryBuilder, ResultSet):
+#    """Use to access any class of planetary products via the PDS Registry API."""
+#    def __init__(self, client: PDSRegistryClient):
+#        QueryBuilder.__init__(self)
+#        ResultSet.__init__(self, client)
