@@ -56,12 +56,11 @@ class ClientTestCase(unittest.TestCase):
         assert df is None
 
     def test_query_modification_during_pagination(self):
-        n = 0
-        for p in self.products:
-            n += 1
+        for i, p in enumerate(self.products):
+            i += 1
             assert isinstance(p, PdsProduct)
 
-            if n > self.MAX_ITERATIONS:
+            if i > self.MAX_ITERATIONS:
                 # Attempt to modify the query clause while there are still results
                 # to paginate through. This should result in a RuntimeError.
                 with self.assertRaises(RuntimeError):
@@ -199,7 +198,7 @@ class ClientTestCase(unittest.TestCase):
                 break
 
     def test_has_processing_level(self):
-        for processing_level in get_args(pep.client.PROCESSING_LEVELS):
+        for processing_level in get_args(pep.query_builder.PROCESSING_LEVELS):
             n = 0
             for p in self.products.has_processing_level(processing_level):
                 n += 1
