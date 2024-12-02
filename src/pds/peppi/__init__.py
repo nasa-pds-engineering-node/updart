@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """PDS peppi."""
 from .client import PDSRegistryClient  # noqa
-from .client import Products  # noqa
+from .products import Products  # noqa
 
 # For future consideration:
 #
