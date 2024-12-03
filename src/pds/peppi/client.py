@@ -7,7 +7,7 @@ from pds.api_client import Configuration
 
 logger = logging.getLogger(__name__)
 
-DEFAULT_API_BASE_URL = "https://pds.nasa.gov/api/search/1"
+_DEFAULT_API_BASE_URL = "https://pds.nasa.gov/api/search/1"
 """Default URL used when querying PDS API"""
 
 
@@ -21,7 +21,7 @@ class PDSRegistryClient:
 
     """
 
-    def __init__(self, base_url=DEFAULT_API_BASE_URL):
+    def __init__(self, base_url=_DEFAULT_API_BASE_URL):
         """Creates a new instance of PDSRegistryClient.
 
         Parameters

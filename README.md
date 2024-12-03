@@ -185,7 +185,7 @@ See an example in https://github.com/NASA-PDS/pds-doi-service#behavioral-testing
 
 Your project should use [Sphinx](https://www.sphinx-doc.org/en/master/) to build its documentation. PDS' documentation template is already configured as part of the default build. You can build your projects docs with:
 
-    python setup.py build_sphinx
+    sphinx-build -M html docs/source docs/build/html
 
 You can access the build files in the following directory relative to the project root:
 

@@ -14,10 +14,10 @@ logger = logging.getLogger(__name__)
 class ResultSet(QueryBuilder):
     """ResultSet of products on which a query has been applied. Iterable."""
 
-    SORT_PROPERTY = "ops:Harvest_Info.ops:harvest_date_time"
+    _SORT_PROPERTY = "ops:Harvest_Info.ops:harvest_date_time"
     """Default property to sort results of a query by."""
 
-    PAGE_SIZE = 100
+    _PAGE_SIZE = 100
     """Default number of results returned in each page fetch from the PDS API."""
 
     def __init__(self, client: PDSRegistryClient):
@@ -53,7 +53,7 @@ class ResultSet(QueryBuilder):
         if self._page_counter and self._page_counter >= self._expected_pages:
             raise StopIteration
 
-        kwargs = {"sort": [self.SORT_PROPERTY], "limit": self.PAGE_SIZE}
+        kwargs = {"sort": [self._SORT_PROPERTY], "limit": self._PAGE_SIZE}
 
         if self._latest_harvest_time is not None:
             kwargs["search_after"] = [self._latest_harvest_time]
@@ -63,8 +63,8 @@ class ResultSet(QueryBuilder):
 
         if len(self._fields) > 0:
             # The sort property is used for pagination
-            if self.SORT_PROPERTY not in self._fields:
-                self._fields.append(self.SORT_PROPERTY)
+            if self._SORT_PROPERTY not in self._fields:
+                self._fields.append(self._SORT_PROPERTY)
 
             kwargs["fields"] = self._fields
 
@@ -75,15 +75,15 @@ class ResultSet(QueryBuilder):
         if self._expected_pages is None:
             hits = results.summary.hits
 
-            self._expected_pages = hits // self.PAGE_SIZE
-            if hits % self.PAGE_SIZE:
+            self._expected_pages = hits // self._PAGE_SIZE
+            if hits % self._PAGE_SIZE:
                 self._expected_pages += 1
 
             self._page_counter = 0
 
         for product in results.data:
             yield product
-            self._latest_harvest_time = product.properties[self.SORT_PROPERTY][0]
+            self._latest_harvest_time = product.properties[self._SORT_PROPERTY][0]
 
         # If here, current page has been exhausted
         self._page_counter += 1
