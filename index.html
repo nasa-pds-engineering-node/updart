@@ -22,7 +22,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="peppi" href="peppi.html" /> 
+    <link rel="next" title="Quickstart" href="quickstart.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -47,11 +47,11 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="peppi.html">peppi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">Library Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support/contact.html">Contact Us</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support/contribute.html">Contribute</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support/contribute.html#report-a-bug-or-new-feature-request">Report a Bug or New Feature Request</a></li>
-<li class="toctree-l1"><a class="reference internal" href="support/help.html">Help</a></li>
 </ul>
 
         </div>
@@ -80,46 +80,54 @@
              
   <section id="pds-peppi">
 <h1>PDS Peppi<a class="headerlink" href="#pds-peppi" title="Link to this heading"></a></h1>
-<p>The Planetary Data System (<a class="reference external" href="https://pds.nasa.gov/">PDS</a>) Peppi Service provides a Python library for
-interfacing with the PDS Registry API via the API Client (<a class="reference external" href="https://github.com/NASA-PDS/pds-api-client">API</a>). Peppi can be
-used to query the PDS Registry for data products using a number of filtering
-mechanisms to retrieve information for specific PDS Bundles, Collections, etc.</p>
+<p>The <strong>Peppi Open-Source Python Library</strong> provides an intuitive interface for the research community to query and extract data from the <a class="reference external" href="https://pds.nasa.gov">Planetary Data System (PDS)</a>.</p>
+<p>Peppi is powered by the robust <a class="reference external" href="https://nasa-pds.github.io/pds-api/">PDS web API</a>, which offers consistent access to data products from Planetary Archive of NASA and other participating agencies. These products are described using the comprehensive <a class="reference external" href="https://pds.nasa.gov/datastandards/about/">PDS4 standard</a>.</p>
+<p>Recognizing the vast and unpredictable range of scientific use cases, and the rich complexity of the PDS4 standard, Peppi is an evolving project. We invite you to <a class="reference internal" href="support/contribute.html"><span class="doc">Contribute</span></a> to its development and help shape its future.</p>
 </section>
 <section id="sitemap">
 <h1>Sitemap<a class="headerlink" href="#sitemap" title="Link to this heading"></a></h1>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="peppi.html">peppi</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="peppi.html#pds.peppi.client.DEFAULT_API_BASE_URL"><code class="docutils literal notranslate"><span class="pre">DEFAULT_API_BASE_URL</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="peppi.html#pds.peppi.client.PDSRegistryClient"><code class="docutils literal notranslate"><span class="pre">PDSRegistryClient</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="peppi.html#pds.peppi.client.PDSRegistryClient.__init__"><code class="docutils literal notranslate"><span class="pre">PDSRegistryClient.__init__()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="peppi.html#pds.peppi.client.PDSRegistryClient.__weakref__"><code class="docutils literal notranslate"><span class="pre">PDSRegistryClient.__weakref__</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#try-it">Try it</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#next-steps">Next steps</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="peppi.html#pds.peppi.client.PROCESSING_LEVELS"><code class="docutils literal notranslate"><span class="pre">PROCESSING_LEVELS</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="peppi.html#pds.peppi.client.Products"><code class="docutils literal notranslate"><span class="pre">Products</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="peppi.html#pds.peppi.client.Products.PAGE_SIZE"><code class="docutils literal notranslate"><span class="pre">Products.PAGE_SIZE</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="peppi.html#pds.peppi.client.Products.SORT_PROPERTY"><code class="docutils literal notranslate"><span class="pre">Products.SORT_PROPERTY</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="peppi.html#pds.peppi.client.Products.__add_clause"><code class="docutils literal notranslate"><span class="pre">Products.__add_clause()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="peppi.html#pds.peppi.client.Products.__init__"><code class="docutils literal notranslate"><span class="pre">Products.__init__()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="peppi.html#pds.peppi.client.Products.__iter__"><code class="docutils literal notranslate"><span class="pre">Products.__iter__()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="peppi.html#pds.peppi.client.Products.__weakref__"><code class="docutils literal notranslate"><span class="pre">Products.__weakref__</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="peppi.html#pds.peppi.client.Products._init_new_page"><code class="docutils literal notranslate"><span class="pre">Products._init_new_page()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="peppi.html#pds.peppi.client.Products.after"><code class="docutils literal notranslate"><span class="pre">Products.after()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="peppi.html#pds.peppi.client.Products.before"><code class="docutils literal notranslate"><span class="pre">Products.before()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="peppi.html#pds.peppi.client.Products.bundles"><code class="docutils literal notranslate"><span class="pre">Products.bundles()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="peppi.html#pds.peppi.client.Products.collections"><code class="docutils literal notranslate"><span class="pre">Products.collections()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="peppi.html#pds.peppi.client.Products.filter"><code class="docutils literal notranslate"><span class="pre">Products.filter()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="peppi.html#pds.peppi.client.Products.get"><code class="docutils literal notranslate"><span class="pre">Products.get()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="peppi.html#pds.peppi.client.Products.has_instrument"><code class="docutils literal notranslate"><span class="pre">Products.has_instrument()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="peppi.html#pds.peppi.client.Products.has_instrument_host"><code class="docutils literal notranslate"><span class="pre">Products.has_instrument_host()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="peppi.html#pds.peppi.client.Products.has_investigation"><code class="docutils literal notranslate"><span class="pre">Products.has_investigation()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="peppi.html#pds.peppi.client.Products.has_processing_level"><code class="docutils literal notranslate"><span class="pre">Products.has_processing_level()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="peppi.html#pds.peppi.client.Products.has_target"><code class="docutils literal notranslate"><span class="pre">Products.has_target()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="peppi.html#pds.peppi.client.Products.observationals"><code class="docutils literal notranslate"><span class="pre">Products.observationals()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="peppi.html#pds.peppi.client.Products.of_collection"><code class="docutils literal notranslate"><span class="pre">Products.of_collection()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="peppi.html#pds.peppi.client.Products.reset"><code class="docutils literal notranslate"><span class="pre">Products.reset()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">Library Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference.html#pds.peppi.client.PDSRegistryClient"><code class="docutils literal notranslate"><span class="pre">PDSRegistryClient</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference.html#pds.peppi.client.PDSRegistryClient.__init__"><code class="docutils literal notranslate"><span class="pre">PDSRegistryClient.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference.html#pds.peppi.client.PDSRegistryClient.__weakref__"><code class="docutils literal notranslate"><span class="pre">PDSRegistryClient.__weakref__</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference.html#pds.peppi.products.Products"><code class="docutils literal notranslate"><span class="pre">Products</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference.html#pds.peppi.products.Products.__init__"><code class="docutils literal notranslate"><span class="pre">Products.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference.html#pds.peppi.query_builder.QueryBuilder"><code class="docutils literal notranslate"><span class="pre">QueryBuilder</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference.html#pds.peppi.query_builder.QueryBuilder.__init__"><code class="docutils literal notranslate"><span class="pre">QueryBuilder.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference.html#pds.peppi.query_builder.QueryBuilder.__weakref__"><code class="docutils literal notranslate"><span class="pre">QueryBuilder.__weakref__</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference.html#pds.peppi.query_builder.QueryBuilder.after"><code class="docutils literal notranslate"><span class="pre">QueryBuilder.after()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference.html#pds.peppi.query_builder.QueryBuilder.before"><code class="docutils literal notranslate"><span class="pre">QueryBuilder.before()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference.html#pds.peppi.query_builder.QueryBuilder.bundles"><code class="docutils literal notranslate"><span class="pre">QueryBuilder.bundles()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference.html#pds.peppi.query_builder.QueryBuilder.collections"><code class="docutils literal notranslate"><span class="pre">QueryBuilder.collections()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference.html#pds.peppi.query_builder.QueryBuilder.fields"><code class="docutils literal notranslate"><span class="pre">QueryBuilder.fields()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference.html#pds.peppi.query_builder.QueryBuilder.filter"><code class="docutils literal notranslate"><span class="pre">QueryBuilder.filter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference.html#pds.peppi.query_builder.QueryBuilder.get"><code class="docutils literal notranslate"><span class="pre">QueryBuilder.get()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference.html#pds.peppi.query_builder.QueryBuilder.has_instrument"><code class="docutils literal notranslate"><span class="pre">QueryBuilder.has_instrument()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference.html#pds.peppi.query_builder.QueryBuilder.has_instrument_host"><code class="docutils literal notranslate"><span class="pre">QueryBuilder.has_instrument_host()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference.html#pds.peppi.query_builder.QueryBuilder.has_investigation"><code class="docutils literal notranslate"><span class="pre">QueryBuilder.has_investigation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference.html#pds.peppi.query_builder.QueryBuilder.has_processing_level"><code class="docutils literal notranslate"><span class="pre">QueryBuilder.has_processing_level()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference.html#pds.peppi.query_builder.QueryBuilder.has_target"><code class="docutils literal notranslate"><span class="pre">QueryBuilder.has_target()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference.html#pds.peppi.query_builder.QueryBuilder.observationals"><code class="docutils literal notranslate"><span class="pre">QueryBuilder.observationals()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference.html#pds.peppi.query_builder.QueryBuilder.of_collection"><code class="docutils literal notranslate"><span class="pre">QueryBuilder.of_collection()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference.html#pds.peppi.result_set.ResultSet"><code class="docutils literal notranslate"><span class="pre">ResultSet</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference.html#pds.peppi.result_set.ResultSet.__init__"><code class="docutils literal notranslate"><span class="pre">ResultSet.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference.html#pds.peppi.result_set.ResultSet.__iter__"><code class="docutils literal notranslate"><span class="pre">ResultSet.__iter__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference.html#pds.peppi.result_set.ResultSet.as_dataframe"><code class="docutils literal notranslate"><span class="pre">ResultSet.as_dataframe()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference.html#pds.peppi.result_set.ResultSet.reset"><code class="docutils literal notranslate"><span class="pre">ResultSet.reset()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -127,7 +135,6 @@ mechanisms to retrieve information for specific PDS Bundles, Collections, etc.</
 <li class="toctree-l1"><a class="reference internal" href="support/contact.html">Contact Us</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support/contribute.html">Contribute</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support/contribute.html#report-a-bug-or-new-feature-request">Report a Bug or New Feature Request</a></li>
-<li class="toctree-l1"><a class="reference internal" href="support/help.html">Help</a></li>
 </ul>
 </div>
 </section>
@@ -136,7 +143,7 @@ mechanisms to retrieve information for specific PDS Bundles, Collections, etc.</
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="peppi.html" class="btn btn-neutral float-right" title="peppi" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="quickstart.html" class="btn btn-neutral float-right" title="Quickstart" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
