@@ -1,8 +1,21 @@
 # Changelog
 
-## [release/0.4.0](https://github.com/NASA-PDS/peppi/tree/release/0.4.0) (2024-11-14)
+## [«unknown»](https://github.com/NASA-PDS/peppi/tree/«unknown») (2024-12-03)
 
-[Full Changelog](https://github.com/NASA-PDS/peppi/compare/v0.3.0...release/0.4.0)
+[Full Changelog](https://github.com/NASA-PDS/peppi/compare/v0.4.0...«unknown»)
+
+**Requirements:**
+
+- As a user, I want to limit the number of fields returned [\#64](https://github.com/NASA-PDS/peppi/issues/64)
+- As a user, I want my query response as a Pandas DataFrame [\#57](https://github.com/NASA-PDS/peppi/issues/57)
+
+**Other closed issues:**
+
+- Add quickstart to the doc [\#68](https://github.com/NASA-PDS/peppi/issues/68)
+
+## [v0.4.0](https://github.com/NASA-PDS/peppi/tree/v0.4.0) (2024-11-14)
+
+[Full Changelog](https://github.com/NASA-PDS/peppi/compare/v0.3.0...v0.4.0)
 
 **Requirements:**
 
