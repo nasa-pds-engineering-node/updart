@@ -6,6 +6,9 @@ Peppi is meant to be simple to start with.
 
 It brings you to the core of your research in a few lines of code.
 
+The following code has been tested with **Python 3.11**.
+
+
 
 Try it
 ~~~~~~~
