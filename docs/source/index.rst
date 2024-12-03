@@ -1,10 +1,12 @@
 PDS Peppi
 =========
 
-The Planetary Data System (PDS_) Peppi Service provides a Python library for
-interfacing with the PDS Registry API via the API Client (API_). Peppi can be
-used to query the PDS Registry for data products using a number of filtering
-mechanisms to retrieve information for specific PDS Bundles, Collections, etc.
+The **Peppi Open-Source Python Library** provides an intuitive interface for the research community to query and extract data from the `Planetary Data System (PDS) <https://pds.nasa.gov>`_.
+
+Peppi is powered by the robust `PDS web API <https://nasa-pds.github.io/pds-api/>`_, which offers consistent access to data products from Planetary Archive of NASA and other participating agencies. These products are described using the comprehensive `PDS4 standard <https://pds.nasa.gov/datastandards/about/>`_.
+
+Recognizing the vast and unpredictable range of scientific use cases, and the rich complexity of the PDS4 standard, Peppi is an evolving project. We invite you to :doc:`support/contribute` to its development and help shape its future.
+
 
 
 Sitemap
@@ -16,8 +18,10 @@ Sitemap
     :glob:
     :caption: Contents:
 
-    peppi
+    quickstart
+    reference
     /support/*
 
-.. _API: https://github.com/NASA-PDS/pds-api-client
+.. _API: https://nasa-pds.github.io/pds-api/
 .. _PDS: https://pds.nasa.gov/
+.. _PDS4: https://pds.nasa.gov/datastandards/about/
