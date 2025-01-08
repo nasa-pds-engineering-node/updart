@@ -6,7 +6,7 @@ import pds.peppi as pep  # type: ignore
 from pds.api_client import PdsProduct
 
 
-class ClientTestCase(unittest.TestCase):
+class ProductsTestCase(unittest.TestCase):
     MAX_ITERATIONS = 1000
     """Maximum number of iterations over query results to perform before ending test."""
 
