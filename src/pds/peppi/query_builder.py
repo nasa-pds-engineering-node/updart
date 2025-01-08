@@ -257,6 +257,52 @@ class QueryBuilder:
         self._add_clause(clause)
         return self
 
+    def within_range(self, range_in_km: float):
+        """Adds a query clause selecting products within the provided range value.
+
+        Notes
+        -----
+        This method should be implemented by product-specific inheritors that
+        support the notion of range to a given target.
+
+        Parameters
+        ----------
+        range_in_km : float
+            The range in kilometers to use with the query.
+
+        Raises
+        ------
+        NotImplementedError
+
+        """
+        raise NotImplementedError("within_range is not available for base QueryBuilder")
+
+    def within_bbox(self, lat_min: float, lat_max: float, lon_min: float, lon_max: float):
+        """Adds a query clause selecting products which fall within the bounds of the provided bounding box.
+
+        Notes
+        -----
+        This method should be implemented by product-specific inheritors that
+        support the notion of bounding box to filter results by.
+
+        Parameters
+        ----------
+        lat_min : float
+            Minimum latitude boundary.
+        lat_max : float
+            Maximum latitude boundary.
+        lon_min : float
+            Minimum longitude boundary.
+        lon_max : float
+            Maximum longitude boundary.
+
+        Raises
+        ------
+        NotImplementedError
+
+        """
+        raise NotImplementedError("within_bbox is not available for base QueryBuilder")
+
     def get(self, identifier: str):
         """Adds a query clause selecting the product with a LIDVID matching the provided value.
 
