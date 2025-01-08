@@ -18,16 +18,13 @@ class QueryBuilder:
     """QueryBuilder provides method to elaborate complex PDS queries."""
 
     def __init__(self):
-        """Creates a new instance of the QueryBuilder class.
-
-        Parameters
-        ----------
-        client: PDSRegistryClient
-            The client object used to interact with the PDS Registry API.
-
-        """
+        """Creates a new instance of the QueryBuilder class."""
         self._q_string = ""
         self._fields: list[str] = []
+
+    def __str__(self):
+        """Returns a formatted string representation of the current query."""
+        return "\n  and".join(self._q_string.split("and"))
 
     def __add_clause(self, clause):
         """Adds the provided clause to the query string to use on the next fetch of products from the Registry API.
