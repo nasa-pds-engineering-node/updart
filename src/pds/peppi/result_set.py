@@ -28,6 +28,10 @@ class ResultSet(QueryBuilder):
         self._page_counter = None
         self._expected_pages = None
 
+    def __str__(self):
+        """Returns a string representation of the ResultSet, including the current query string."""
+        return f"Current {self.__class__.__name__} query:\n{super().__str__()}"
+
     def _init_new_page(self):
         """Queries the PDS API for the next page of results.
 

@@ -18,18 +18,15 @@ class QueryBuilder:
     """QueryBuilder provides method to elaborate complex PDS queries."""
 
     def __init__(self):
-        """Creates a new instance of the QueryBuilder class.
-
-        Parameters
-        ----------
-        client: PDSRegistryClient
-            The client object used to interact with the PDS Registry API.
-
-        """
+        """Creates a new instance of the QueryBuilder class."""
         self._q_string = ""
         self._fields: list[str] = []
 
-    def __add_clause(self, clause):
+    def __str__(self):
+        """Returns a formatted string representation of the current query."""
+        return "\n  and".join(self._q_string.split("and"))
+
+    def _add_clause(self, clause):
         """Adds the provided clause to the query string to use on the next fetch of products from the Registry API.
 
         Repeated calls to this method results in a joining with any previously
@@ -88,7 +85,7 @@ class QueryBuilder:
 
         """
         clause = f'ref_lid_target eq "{identifier}"'
-        self.__add_clause(clause)
+        self._add_clause(clause)
         return self
 
     def has_investigation(self, identifier: str):
@@ -105,7 +102,7 @@ class QueryBuilder:
 
         """
         clause = f'ref_lid_investigation eq "{identifier}"'
-        self.__add_clause(clause)
+        self._add_clause(clause)
         return self
 
     def before(self, dt: datetime):
@@ -123,7 +120,7 @@ class QueryBuilder:
         """
         iso8601_datetime = dt.isoformat().replace("+00:00", "Z")
         clause = f'pds:Time_Coordinates.pds:start_date_time le "{iso8601_datetime}"'
-        self.__add_clause(clause)
+        self._add_clause(clause)
         return self
 
     def after(self, dt: datetime):
@@ -141,7 +138,7 @@ class QueryBuilder:
         """
         iso8601_datetime = dt.isoformat().replace("+00:00", "Z")
         clause = f'pds:Time_Coordinates.pds:stop_date_time ge "{iso8601_datetime}"'
-        self.__add_clause(clause)
+        self._add_clause(clause)
         return self
 
     def of_collection(self, identifier: str):
@@ -158,7 +155,7 @@ class QueryBuilder:
 
         """
         clause = f'ops:Provenance.ops:parent_collection_identifier eq "{identifier}"'
-        self.__add_clause(clause)
+        self._add_clause(clause)
         return self
 
     def observationals(self):
@@ -170,7 +167,7 @@ class QueryBuilder:
 
         """
         clause = 'product_class eq "Product_Observational"'
-        self.__add_clause(clause)
+        self._add_clause(clause)
         return self
 
     def collections(self, collection_type: Optional[str] = None):
@@ -188,11 +185,11 @@ class QueryBuilder:
 
         """
         clause = 'product_class eq "Product_Collection"'
-        self.__add_clause(clause)
+        self._add_clause(clause)
 
         if collection_type:
             clause = f'pds:Collection.pds:collection_type eq "{collection_type}"'
-            self.__add_clause(clause)
+            self._add_clause(clause)
 
         return self
 
@@ -205,7 +202,7 @@ class QueryBuilder:
 
         """
         clause = 'product_class eq "Product_Bundle"'
-        self.__add_clause(clause)
+        self._add_clause(clause)
         return self
 
     def has_instrument(self, identifier: str):
@@ -222,7 +219,7 @@ class QueryBuilder:
 
         """
         clause = f'ref_lid_instrument eq "{identifier}"'
-        self.__add_clause(clause)
+        self._add_clause(clause)
         return self
 
     def has_instrument_host(self, identifier: str):
@@ -239,7 +236,7 @@ class QueryBuilder:
 
         """
         clause = f'ref_lid_instrument_host eq "{identifier}"'
-        self.__add_clause(clause)
+        self._add_clause(clause)
         return self
 
     def has_processing_level(self, processing_level: PROCESSING_LEVELS = "raw"):
@@ -257,8 +254,54 @@ class QueryBuilder:
 
         """
         clause = f'pds:Primary_Result_Summary.pds:processing_level eq "{processing_level.title()}"'
-        self.__add_clause(clause)
+        self._add_clause(clause)
         return self
+
+    def within_range(self, range_in_km: float):
+        """Adds a query clause selecting products within the provided range value.
+
+        Notes
+        -----
+        This method should be implemented by product-specific inheritors that
+        support the notion of range to a given target.
+
+        Parameters
+        ----------
+        range_in_km : float
+            The range in kilometers to use with the query.
+
+        Raises
+        ------
+        NotImplementedError
+
+        """
+        raise NotImplementedError("within_range is not available for base QueryBuilder")
+
+    def within_bbox(self, lat_min: float, lat_max: float, lon_min: float, lon_max: float):
+        """Adds a query clause selecting products which fall within the bounds of the provided bounding box.
+
+        Notes
+        -----
+        This method should be implemented by product-specific inheritors that
+        support the notion of bounding box to filter results by.
+
+        Parameters
+        ----------
+        lat_min : float
+            Minimum latitude boundary.
+        lat_max : float
+            Maximum latitude boundary.
+        lon_min : float
+            Minimum longitude boundary.
+        lon_max : float
+            Maximum longitude boundary.
+
+        Raises
+        ------
+        NotImplementedError
+
+        """
+        raise NotImplementedError("within_bbox is not available for base QueryBuilder")
 
     def get(self, identifier: str):
         """Adds a query clause selecting the product with a LIDVID matching the provided value.
@@ -273,7 +316,7 @@ class QueryBuilder:
         This Products instance with the "LIDVID identifier" filter applied.
 
         """
-        self.__add_clause(f'lidvid like "{identifier}"')
+        self._add_clause(f'lidvid like "{identifier}"')
         return self
 
     def fields(self, fields: list):
@@ -293,5 +336,5 @@ class QueryBuilder:
         -------
         This Products instance with the provided filtering clause applied.
         """
-        self.__add_clause(clause)
+        self._add_clause(clause)
         return self

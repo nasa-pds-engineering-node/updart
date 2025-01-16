@@ -114,8 +114,8 @@ jobs:
             uses: djdefi/cloc-action@6
             with:
                 options: --report-file=cloc.md
-        
-      
+
+
           -
             name: Upload SLOC
             uses: actions/upload-artifact@v4
