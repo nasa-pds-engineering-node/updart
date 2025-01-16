@@ -1,5 +1,18 @@
 # Changelog
 
+## [«unknown»](https://github.com/NASA-PDS/peppi/tree/«unknown») (2025-01-16)
+
+[Full Changelog](https://github.com/NASA-PDS/peppi/compare/v0.5.0...«unknown»)
+
+**Requirements:**
+
+- As a user, I want to read all tables within a collection into a pandas DataFrame [\#61](https://github.com/NASA-PDS/peppi/issues/61)
+- As a user, I want to transform binary tables \(.dat\) in CSVs for all members of a collection [\#60](https://github.com/NASA-PDS/peppi/issues/60)
+
+**Other closed issues:**
+
+- Implement queries which work across mission [\#71](https://github.com/NASA-PDS/peppi/issues/71)
+
 ## [v0.5.0](https://github.com/NASA-PDS/peppi/tree/v0.5.0) (2024-12-08)
 
 [Full Changelog](https://github.com/NASA-PDS/peppi/compare/v0.4.0...v0.5.0)
@@ -31,11 +44,7 @@
 
 ## [v0.3.0](https://github.com/NASA-PDS/peppi/tree/v0.3.0) (2024-11-04)
 
-[Full Changelog](https://github.com/NASA-PDS/peppi/compare/release/0.3.0...v0.3.0)
-
-## [release/0.3.0](https://github.com/NASA-PDS/peppi/tree/release/0.3.0) (2024-11-04)
-
-[Full Changelog](https://github.com/NASA-PDS/peppi/compare/v0.1.0...release/0.3.0)
+[Full Changelog](https://github.com/NASA-PDS/peppi/compare/v0.1.0...v0.3.0)
 
 **Requirements:**
 
@@ -55,11 +64,7 @@
 
 ## [v0.1.0](https://github.com/NASA-PDS/peppi/tree/v0.1.0) (2024-02-29)
 
-[Full Changelog](https://github.com/NASA-PDS/peppi/compare/release/0.1.0...v0.1.0)
-
-## [release/0.1.0](https://github.com/NASA-PDS/peppi/tree/release/0.1.0) (2024-02-29)
-
-[Full Changelog](https://github.com/NASA-PDS/peppi/compare/c5c69cbf9b198d2eb7b10d86c1c765fda90d7494...release/0.1.0)
+[Full Changelog](https://github.com/NASA-PDS/peppi/compare/c5c69cbf9b198d2eb7b10d86c1c765fda90d7494...v0.1.0)
 
 
 
