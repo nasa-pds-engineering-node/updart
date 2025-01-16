@@ -4,11 +4,14 @@ Contains all the methods use to elaborate the PDS4 Information Model queries thr
 """
 import logging
 from datetime import datetime
-from typing import Literal
-from typing import Optional
+from typing import Literal, Optional
+
+import pandas as pd
+
+from .client import PDSRegistryClient
+from .result_set import ResultSet
 
 logger = logging.getLogger(__name__)
-
 
 PROCESSING_LEVELS = Literal["telemetry", "raw", "partially-processed", "calibrated", "derived"]
 """Processing level values that can be used with has_processing_level()"""
@@ -17,14 +20,44 @@ PROCESSING_LEVELS = Literal["telemetry", "raw", "partially-processed", "calibrat
 class QueryBuilder:
     """QueryBuilder provides method to elaborate complex PDS queries."""
 
-    def __init__(self):
+    def __init__(self, client: PDSRegistryClient):
         """Creates a new instance of the QueryBuilder class."""
         self._q_string = ""
         self._fields: list[str] = []
+        self._result_set = ResultSet(client)
 
     def __str__(self):
         """Returns a formatted string representation of the current query."""
         return "\n  and".join(self._q_string.split("and"))
+
+    def __iter__(self):
+        """Iterates over all products returned by the current query filter applied to this Products instance.
+
+        This method handles pagination automatically by fetching additional pages
+        from the PDS Registry API as needed. Once all available pages and results
+        have been yielded, this method will reset this Products instance to a
+        default state which can be used to perform a new query.
+
+        Yields
+        ------
+        product : pds.api_client.models.pds_product.PDSProduct
+            The next product within the current page fetched from the PDS Registry
+            API.
+
+        """
+        while True:
+            try:
+                for product in self._result_set.init_new_page(
+                        query_string=self._q_string, fields=self._fields):
+                    yield product
+            except RuntimeError as err:
+                # Make sure we got the StopIteration that was converted to a RuntimeError,
+                # otherwise we need to re-raise
+                if "StopIteration" not in str(err):
+                    raise err
+
+                self._result_set.reset()
+                break
 
     def _add_clause(self, clause):
         """Adds the provided clause to the query string to use on the next fetch of products from the Registry API.
@@ -57,8 +90,8 @@ class QueryBuilder:
 
         """
         # TODO have something more agnostic of what the iterator is
-        # since the iterator is not managed by this present object
-        if hasattr(self, "_page_counter") and self._page_counter:
+        #      since the iterator is not managed by this present object
+        if hasattr(self._result_set, "_page_counter") and self._result_set._page_counter:
             raise RuntimeError(
                 "Cannot modify query while paginating over previous query results.\n"
                 "Use the reset() method on this Products instance or exhaust all returned "
@@ -66,6 +99,7 @@ class QueryBuilder:
             )
 
         clause = f"({clause})"
+
         if self._q_string:
             self._q_string += f" and {clause}"
         else:
@@ -338,3 +372,56 @@ class QueryBuilder:
         """
         self._add_clause(clause)
         return self
+
+    def as_dataframe(self, max_rows: Optional[int] = None):
+        """Returns the found products as a pandas DataFrame.
+
+        Loops on the products found and returns a pandas DataFrame with the product properties as columns
+        and their identifier as index.
+
+        Parameters
+        ----------
+        max_rows : int
+            Optional limit in the number of products returned in the dataframe. Convenient for test while developing.
+            Default is no limit (None)
+
+        Returns
+        -------
+        The products as a pandas dataframe.
+        """
+        result_as_dict_list = []
+        lidvid_index = []
+        n = 0
+
+        for p in self:
+            result_as_dict_list.append(p.properties)
+            lidvid_index.append(p.id)
+            n += 1
+
+            if max_rows and n >= max_rows:
+                break
+
+        self.reset()
+
+        if n > 0:
+            df = pd.DataFrame.from_records(result_as_dict_list, index=lidvid_index)
+
+            # reduce useless arrays in dataframe columns
+            for column in df.columns:
+                only_1_element = df.apply(lambda x: len(x[column]) <= 1, axis=1)  # noqa
+                if only_1_element.all():
+                    df[column] = df.apply(lambda x: x[column][0], axis=1)  # noqa
+            return df
+        else:
+            logger.warning("Query with clause %s did not return any products.", self._q_string)  # noqa
+            return None
+
+    def reset(self):
+        """Resets internal pagination state to default.
+
+        This method should be called before making any modifications to the
+        query clause stored by this QueryBuilder instance while still paginating
+        through the results of a previous query.
+
+        """
+        self._result_set.reset()

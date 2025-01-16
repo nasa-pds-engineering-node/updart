@@ -1,10 +1,10 @@
-"""Module containing the Osiris Rex (OREX) tailored ResultSet class."""
+"""Module containing the Osiris Rex (OREX) tailored QueryBuilder class."""
 from pds.peppi.client import PDSRegistryClient
-from pds.peppi.result_set import ResultSet
+from pds.peppi.query_builder import QueryBuilder
 
 
-class OrexResultSet(ResultSet):
-    """Inherits the functionality of the ResultSet class, but adds implementations for stubs in QueryBuilder."""
+class OrexQueryBuilder(QueryBuilder):
+    """Inherits the functionality of the QueryBuilder class, but adds implementations for unimplemented stubs."""
 
     orex_instrument_lidvid = "urn:nasa:pds:context:instrument:ovirs.orex"
 
