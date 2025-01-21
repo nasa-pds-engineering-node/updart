@@ -12,6 +12,7 @@ pds.peppi.client
 
 .. automodule:: pds.peppi.products
     :members: Products
+    :show-inheritance:
     :special-members:
 
 .. automodule:: pds.peppi.query_builder
@@ -20,4 +21,15 @@ pds.peppi.client
 
 .. automodule:: pds.peppi.result_set
     :members: ResultSet
+    :show-inheritance:
+    :special-members:
+
+.. automodule:: pds.peppi.orex.products
+    :members: OrexProducts
+    :show-inheritance:
+    :special-members:
+
+.. automodule:: pds.peppi.orex.result_set
+    :members: OrexResultSet
+    :show-inheritance:
     :special-members:
