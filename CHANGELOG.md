@@ -1,6 +1,6 @@
 # Changelog
 
-## [«unknown»](https://github.com/NASA-PDS/peppi/tree/«unknown») (2025-01-16)
+## [«unknown»](https://github.com/NASA-PDS/peppi/tree/«unknown») (2025-01-21)
 
 [Full Changelog](https://github.com/NASA-PDS/peppi/compare/v0.5.0...«unknown»)
 
