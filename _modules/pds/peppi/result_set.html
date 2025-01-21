@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pds.peppi.result_set &mdash; Peppi  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/theme_overrides.css?v=0c24fe83" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Peppi
+              <img src="../../../_static/PDS_Planets.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference.html">Library Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../support/contact.html">Contact Us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../support/contribute.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../support/contribute.html#report-a-bug-or-new-feature-request">Report a Bug or New Feature Request</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Peppi</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pds.peppi.result_set</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pds.peppi.result_set</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Module of the ResultSet.&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">pds.api_client.api.all_products_api</span> <span class="kn">import</span> <span class="n">AllProductsApi</span>
+
+<span class="kn">from</span> <span class="nn">.client</span> <span class="kn">import</span> <span class="n">PDSRegistryClient</span>
+<span class="kn">from</span> <span class="nn">.query_builder</span> <span class="kn">import</span> <span class="n">QueryBuilder</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="ResultSet">
+<a class="viewcode-back" href="../../../reference.html#pds.peppi.result_set.ResultSet">[docs]</a>
+<span class="k">class</span> <span class="nc">ResultSet</span><span class="p">(</span><span class="n">QueryBuilder</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;ResultSet of products on which a query has been applied. Iterable.&quot;&quot;&quot;</span>
+
+    <span class="n">_SORT_PROPERTY</span> <span class="o">=</span> <span class="s2">&quot;ops:Harvest_Info.ops:harvest_date_time&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Default property to sort results of a query by.&quot;&quot;&quot;</span>
+
+    <span class="n">_PAGE_SIZE</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Default number of results returned in each page fetch from the PDS API.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ResultSet.__init__">
+<a class="viewcode-back" href="../../../reference.html#pds.peppi.result_set.ResultSet.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">PDSRegistryClient</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Constructor of the ResultSet.&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_products</span> <span class="o">=</span> <span class="n">AllProductsApi</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">api_client</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_latest_harvest_time</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_page_counter</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_expected_pages</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="ResultSet.__str__">
+<a class="viewcode-back" href="../../../reference.html#pds.peppi.result_set.ResultSet.__str__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a string representation of the ResultSet, including the current query string.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Current </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> query:</span><span class="se">\n</span><span class="si">{</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span></div>
+
+
+    <span class="k">def</span> <span class="nf">_init_new_page</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Queries the PDS API for the next page of results.</span>
+
+<span class="sd">        Any query clauses associated to this Products instance are included here.</span>
+
+<span class="sd">        If there are results remaining from the previously acquired page,</span>
+<span class="sd">        they are yieled on each subsequent call to this method.</span>
+
+<span class="sd">        Yields</span>
+<span class="sd">        ------</span>
+<span class="sd">        product : pds.api_client.models.pds_product.PDSProduct</span>
+<span class="sd">            The next product within the current page fetched from the PDS Registry</span>
+<span class="sd">            API.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        StopIteration</span>
+<span class="sd">            Once all available pages of query results have been exhausted.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check if we&#39;ve hit the expected number of pages (or exceeded in cases</span>
+        <span class="c1"># where no results were returned from the query)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_page_counter</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_page_counter</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expected_pages</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">StopIteration</span>
+
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;sort&quot;</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_SORT_PROPERTY</span><span class="p">],</span> <span class="s2">&quot;limit&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_PAGE_SIZE</span><span class="p">}</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_latest_harvest_time</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;search_after&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_latest_harvest_time</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_q_string</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;q&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_q_string</span><span class="si">}</span><span class="s2">)&quot;</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fields</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># The sort property is used for pagination</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_SORT_PROPERTY</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fields</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_SORT_PROPERTY</span><span class="p">)</span>
+
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;fields&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fields</span>
+
+        <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_products</span><span class="o">.</span><span class="n">product_list</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># If this is the first page fetch, calculate total number of expected pages</span>
+        <span class="c1"># based on hit count</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expected_pages</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">hits</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">hits</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_expected_pages</span> <span class="o">=</span> <span class="n">hits</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">_PAGE_SIZE</span>
+            <span class="k">if</span> <span class="n">hits</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_PAGE_SIZE</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_expected_pages</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_page_counter</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">for</span> <span class="n">product</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">product</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_latest_harvest_time</span> <span class="o">=</span> <span class="n">product</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_SORT_PROPERTY</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># If here, current page has been exhausted</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_page_counter</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<div class="viewcode-block" id="ResultSet.__iter__">
+<a class="viewcode-back" href="../../../reference.html#pds.peppi.result_set.ResultSet.__iter__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Iterates over all products returned by the current query filter applied to this Products instance.</span>
+
+<span class="sd">        This method handles pagination automatically by fetching additional pages</span>
+<span class="sd">        from the PDS Registry API as needed. Once all available pages and results</span>
+<span class="sd">        have been yielded, this method will reset this Products instance to a</span>
+<span class="sd">        default state which can be used to perform a new query.</span>
+
+<span class="sd">        Yields</span>
+<span class="sd">        ------</span>
+<span class="sd">        product : pds.api_client.models.pds_product.PDSProduct</span>
+<span class="sd">            The next product within the current page fetched from the PDS Registry</span>
+<span class="sd">            API.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">product</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_new_page</span><span class="p">():</span>
+                    <span class="k">yield</span> <span class="n">product</span>
+            <span class="k">except</span> <span class="ne">RuntimeError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+                <span class="c1"># Make sure we got the StopIteration that was converted to a RuntimeError,</span>
+                <span class="c1"># otherwise we need to re-raise</span>
+                <span class="k">if</span> <span class="s2">&quot;StopIteration&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="n">err</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+                <span class="k">break</span></div>
+
+
+<div class="viewcode-block" id="ResultSet.reset">
+<a class="viewcode-back" href="../../../reference.html#pds.peppi.result_set.ResultSet.reset">[docs]</a>
+    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Resets internal pagination state to default.</span>
+
+<span class="sd">        This method should be called before making any modifications to the</span>
+<span class="sd">        query clause stored by this Products instance while still paginating</span>
+<span class="sd">        through the results of a previous query.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_expected_pages</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_page_counter</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_latest_harvest_time</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="ResultSet.as_dataframe">
+<a class="viewcode-back" href="../../../reference.html#pds.peppi.result_set.ResultSet.as_dataframe">[docs]</a>
+    <span class="k">def</span> <span class="nf">as_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_rows</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the found products as a pandas DataFrame.</span>
+
+<span class="sd">        Loops on the products found and returns a pandas DataFrame with the product properties as columns</span>
+<span class="sd">        and their identifier as index.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        max_rows : int</span>
+<span class="sd">            Optional limit in the number of products returned in the dataframe. Convenient for test while developing.</span>
+<span class="sd">            Default is no limit (None)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        The products as a pandas dataframe.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result_as_dict_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">lidvid_index</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">result_as_dict_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">properties</span><span class="p">)</span>
+            <span class="n">lidvid_index</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">max_rows</span> <span class="ow">and</span> <span class="n">n</span> <span class="o">&gt;=</span> <span class="n">max_rows</span><span class="p">:</span>
+                <span class="k">break</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_records</span><span class="p">(</span><span class="n">result_as_dict_list</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">lidvid_index</span><span class="p">)</span>
+            <span class="c1"># reduce useless arrays in dataframe columns</span>
+            <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                <span class="n">only_1_element</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">column</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># noqa</span>
+                <span class="k">if</span> <span class="n">only_1_element</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+                    <span class="n">df</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="n">column</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># noqa</span>
+            <span class="k">return</span> <span class="n">df</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Query with clause </span><span class="si">%s</span><span class="s2"> did not return any products.&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_q_string</span><span class="p">)</span>  <span class="c1"># noqa</span>
+            <span class="k">return</span> <span class="kc">None</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024 California Institute of Technology.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
