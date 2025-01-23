@@ -64,7 +64,7 @@ class ResultSet:
         if len(query_string) > 0:
             kwargs["q"] = f"({query_string})"
 
-        if len(fields) > 0:
+        if fields and len(fields) > 0:
             # The sort property is used for pagination
             if self._SORT_PROPERTY not in fields:
                 fields.append(self._SORT_PROPERTY)
