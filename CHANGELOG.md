@@ -1,16 +1,22 @@
 # Changelog
 
-## [«unknown»](https://github.com/NASA-PDS/peppi/tree/«unknown») (2025-01-21)
+## [«unknown»](https://github.com/NASA-PDS/peppi/tree/«unknown») (2025-01-23)
 
 [Full Changelog](https://github.com/NASA-PDS/peppi/compare/v0.5.0...«unknown»)
 
 **Requirements:**
 
+- As a user, I want to find products with a target given as a string [\#74](https://github.com/NASA-PDS/peppi/issues/74)
 - As a user, I want to read all tables within a collection into a pandas DataFrame [\#61](https://github.com/NASA-PDS/peppi/issues/61)
 - As a user, I want to transform binary tables \(.dat\) in CSVs for all members of a collection [\#60](https://github.com/NASA-PDS/peppi/issues/60)
 
+**Defects:**
+
+- The product object need to be re-instanciated to avoid the combination of independent requests [\#79](https://github.com/NASA-PDS/peppi/issues/79) [[s.medium](https://github.com/NASA-PDS/peppi/labels/s.medium)]
+
 **Other closed issues:**
 
+- Update OrexProduct to be a subset of the Osiris Rex mission instead of the OVIRS instrument [\#76](https://github.com/NASA-PDS/peppi/issues/76)
 - Implement queries which work across mission [\#71](https://github.com/NASA-PDS/peppi/issues/71)
 
 ## [v0.5.0](https://github.com/NASA-PDS/peppi/tree/v0.5.0) (2024-12-08)
