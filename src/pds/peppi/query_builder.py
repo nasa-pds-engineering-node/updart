@@ -115,7 +115,7 @@ class QueryBuilder:
 
         Returns
         -------
-        This Products instance with the "has target" query filter applied.
+        This instance with the "has target" query filter applied.
 
         """
         clause = f'ref_lid_target eq "{identifier}"'
@@ -132,7 +132,7 @@ class QueryBuilder:
 
         Returns
         -------
-        This Products instance with the "has investigation" query filter applied.
+        This instance with the "has investigation" query filter applied.
 
         """
         clause = f'ref_lid_investigation eq "{identifier}"'
@@ -149,7 +149,7 @@ class QueryBuilder:
 
         Returns
         -------
-        This Products instance with the "before" filter applied.
+        This instance with the "before" filter applied.
 
         """
         iso8601_datetime = dt.isoformat().replace("+00:00", "Z")
@@ -167,7 +167,7 @@ class QueryBuilder:
 
         Returns
         -------
-        This Products instance with the "before" filter applied.
+        This instance with the "before" filter applied.
 
         """
         iso8601_datetime = dt.isoformat().replace("+00:00", "Z")
@@ -185,7 +185,7 @@ class QueryBuilder:
 
         Returns
         -------
-        This Products instance with the "Parent Collection" filter applied.
+        This instance with the "Parent Collection" filter applied.
 
         """
         clause = f'ops:Provenance.ops:parent_collection_identifier eq "{identifier}"'
@@ -197,7 +197,7 @@ class QueryBuilder:
 
         Returns
         -------
-        This Products instance with the "Observational Product" filter applied.
+        This instance with the "Observational Product" filter applied.
 
         """
         clause = 'product_class eq "Product_Observational"'
@@ -215,7 +215,7 @@ class QueryBuilder:
 
         Returns
         -------
-        This Products instance with the "Product Collection" filter applied.
+        This instance with the "Product Collection" filter applied.
 
         """
         clause = 'product_class eq "Product_Collection"'
@@ -232,7 +232,7 @@ class QueryBuilder:
 
         Returns
         -------
-        This Products instance with the "Product Bundle" filter applied.
+        This instance with the "Product Bundle" filter applied.
 
         """
         clause = 'product_class eq "Product_Bundle"'
@@ -249,7 +249,7 @@ class QueryBuilder:
 
         Returns
         -------
-        This Products instance with the "has instrument" filter applied.
+        This instance with the "has instrument" filter applied.
 
         """
         clause = f'ref_lid_instrument eq "{identifier}"'
@@ -266,7 +266,7 @@ class QueryBuilder:
 
         Returns
         -------
-        This Products instance with the "has instrument host" filter applied.
+        This instance with the "has instrument host" filter applied.
 
         """
         clause = f'ref_lid_instrument_host eq "{identifier}"'
@@ -284,7 +284,7 @@ class QueryBuilder:
 
         Returns
         -------
-        This Products instance with the "has processing level" filter applied.
+        This instance with the "has processing level" filter applied.
 
         """
         clause = f'pds:Primary_Result_Summary.pds:processing_level eq "{processing_level.title()}"'
@@ -347,7 +347,7 @@ class QueryBuilder:
 
         Returns
         -------
-        This Products instance with the "LIDVID identifier" filter applied.
+        This instance with the "LIDVID identifier" filter applied.
 
         """
         self._add_clause(f'lidvid like "{identifier}"')
@@ -368,7 +368,7 @@ class QueryBuilder:
 
         Returns
         -------
-        This Products instance with the provided filtering clause applied.
+        This instance with the provided filtering clause applied.
         """
         self._add_clause(clause)
         return self
