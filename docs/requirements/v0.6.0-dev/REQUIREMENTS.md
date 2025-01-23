@@ -88,3 +88,15 @@ This requirement is not impacted by the current version
 
 
 This requirement is not impacted by the current version
+## As a user, I want to know which property I can select in the returned objects ([#78](https://github.com/NASA-PDS/peppi/issues/78)) 
+
+
+This requirement is not impacted by the current version
+## As a user, I want that chatGPT proposes code examples using peppi ([#80](https://github.com/NASA-PDS/peppi/issues/80)) 
+
+
+This requirement is not impacted by the current version
+## As a user, I want to get the observational products of a bundle ([#81](https://github.com/NASA-PDS/peppi/issues/81)) 
+
+
+This requirement is not impacted by the current version
