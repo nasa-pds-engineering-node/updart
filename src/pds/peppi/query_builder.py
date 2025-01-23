@@ -425,3 +425,4 @@ class QueryBuilder:
 
         """
         self._result_set.reset()
+        self._q_string = ""
