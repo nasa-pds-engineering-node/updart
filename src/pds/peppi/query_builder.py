@@ -4,7 +4,9 @@ Contains all the methods use to elaborate the PDS4 Information Model queries thr
 """
 import logging
 from datetime import datetime
-from typing import Literal, Optional
+from functools import cache
+from typing import Literal
+from typing import Optional
 
 import pandas as pd
 
@@ -22,9 +24,10 @@ class QueryBuilder:
 
     def __init__(self, client: PDSRegistryClient):
         """Creates a new instance of the QueryBuilder class."""
+        self._client = client
         self._q_string = ""
         self._fields: list[str] = []
-        self._result_set = ResultSet(client)
+        self._result_set = ResultSet(self._client)
 
     def __str__(self):
         """Returns a formatted string representation of the current query."""
@@ -47,8 +50,7 @@ class QueryBuilder:
         """
         while True:
             try:
-                for product in self._result_set.init_new_page(
-                        query_string=self._q_string, fields=self._fields):
+                for product in self._result_set.init_new_page(query_string=self._q_string, fields=self._fields):
                     yield product
             except RuntimeError as err:
                 # Make sure we got the StopIteration that was converted to a RuntimeError,
@@ -59,7 +61,7 @@ class QueryBuilder:
                 self._result_set.reset()
                 break
 
-    def _add_clause(self, clause):
+    def _add_clause(self, clause, logical_join="and"):
         """Adds the provided clause to the query string to use on the next fetch of products from the Registry API.
 
         Repeated calls to this method results in a joining with any previously
@@ -81,6 +83,11 @@ class QueryBuilder:
         clause : str
             The query clause to append. Clause should match the domain language
             expected by the PDS Registry API
+        logical_join : str, optional
+            The logical operator to use to join the new clause with any existing
+            clauses. Must be one of "and" or "or" (case-insensitive). This
+            argument has no effect if this is the first clause to be added.
+            Defaults to "and".
 
         Raises
         ------
@@ -89,6 +96,15 @@ class QueryBuilder:
             over from a previous query.
 
         """
+        # TODO transition off usage of this function to build a query string
+        #      in response to each user method call.
+        #      rather, have each user call track state about what was requested,
+        #      and then only assemble the final query string when __iter__ is called.
+        #      this should allow us flexibility to assemble individual sub-clauses
+        #      with logical OR, then join all sub-clauses together with logical AND.
+        if logical_join.lower() not in ("and", "or"):
+            raise ValueError(f'Invalid logical join operator "{logical_join}", must be either "and" or "or".')
+
         # TODO have something more agnostic of what the iterator is
         #      since the iterator is not managed by this present object
         if hasattr(self._result_set, "_page_counter") and self._result_set._page_counter:
@@ -101,7 +117,7 @@ class QueryBuilder:
         clause = f"({clause})"
 
         if self._q_string:
-            self._q_string += f" and {clause}"
+            self._q_string += f" {logical_join.lower()} {clause}"
         else:
             self._q_string = clause
 
@@ -119,7 +135,7 @@ class QueryBuilder:
 
         """
         clause = f'ref_lid_target eq "{identifier}"'
-        self._add_clause(clause)
+        self._add_clause(clause, logical_join="or")
         return self
 
     def has_investigation(self, identifier: str):
@@ -350,7 +366,8 @@ class QueryBuilder:
         This instance with the "LIDVID identifier" filter applied.
 
         """
-        self._add_clause(f'lidvid like "{identifier}"')
+        # Note: use of "like" is currently broken in the API when combined with other clauses
+        self._add_clause(f'lidvid eq "{identifier}"', logical_join="or")
         return self
 
     def fields(self, fields: list):
@@ -371,6 +388,61 @@ class QueryBuilder:
         This instance with the provided filtering clause applied.
         """
         self._add_clause(clause)
+        return self
+
+    def products_with_target(self, keyword: str):
+        """Adds a query clause for any LIDVIDs that specify the provided keyword as a target.
+
+        The provided keyword is "cannonicalized" into several variations
+        (uppercase, lowercase, etc.) to cast a wider search across target names.
+
+        Notes
+        -----
+        To perform the mapping of the provided keyword to LIDs with that
+        keyword as a target, an intermediate query is performed synchronously
+        when this method is invoked. The results of the intermediate query are
+        then cached for future reference.
+
+        Parameters
+        ----------
+        keyword : str
+            The keyword value to search for.
+
+        Returns
+        -------
+        This instance with a "has target" filter applied for each LID derived
+        from the intermediate query.
+        """
+
+        def _canonicalize_target_name(target_name: str):
+            return target_name.title(), target_name.upper(), target_name.lower()
+
+        inter_q_string = " or ".join(
+            f'pds:Target.pds:name eq "{target_name}"' for target_name in _canonicalize_target_name(keyword)
+        )
+
+        logger.debug("inter_q_string=%s", inter_q_string)
+
+        @cache
+        def _get_inter_results(inter_q_string):
+            inter_result_set = ResultSet(self._client)
+            products_with_target = [product for product in inter_result_set.init_new_page(inter_q_string)]
+            return products_with_target
+
+        logger.info('Finding products with target "%s"', keyword)
+
+        products_with_target = _get_inter_results(inter_q_string)
+
+        logger.info('Found %d product(s) matching target "%s"', len(products_with_target))
+
+        lids = set()
+        for product in products_with_target:
+            lid = product.properties["lid"][0]
+
+            if lid not in lids:
+                self.has_target(lid)
+                lids.add(lid)
+
         return self
 
     def as_dataframe(self, max_rows: Optional[int] = None):
