@@ -4,11 +4,16 @@ Contains all the methods use to elaborate the PDS4 Information Model queries thr
 """
 import logging
 from datetime import datetime
+from functools import cache
 from typing import Literal
 from typing import Optional
 
-logger = logging.getLogger(__name__)
+import pandas as pd
 
+from .client import PDSRegistryClient
+from .result_set import ResultSet
+
+logger = logging.getLogger(__name__)
 
 PROCESSING_LEVELS = Literal["telemetry", "raw", "partially-processed", "calibrated", "derived"]
 """Processing level values that can be used with has_processing_level()"""
@@ -17,16 +22,46 @@ PROCESSING_LEVELS = Literal["telemetry", "raw", "partially-processed", "calibrat
 class QueryBuilder:
     """QueryBuilder provides method to elaborate complex PDS queries."""
 
-    def __init__(self):
+    def __init__(self, client: PDSRegistryClient):
         """Creates a new instance of the QueryBuilder class."""
+        self._client = client
         self._q_string = ""
         self._fields: list[str] = []
+        self._result_set = ResultSet(self._client)
 
     def __str__(self):
         """Returns a formatted string representation of the current query."""
         return "\n  and".join(self._q_string.split("and"))
 
-    def _add_clause(self, clause):
+    def __iter__(self):
+        """Iterates over all products returned by the current query filter applied to this Products instance.
+
+        This method handles pagination automatically by fetching additional pages
+        from the PDS Registry API as needed. Once all available pages and results
+        have been yielded, this method will reset this Products instance to a
+        default state which can be used to perform a new query.
+
+        Yields
+        ------
+        product : pds.api_client.models.pds_product.PDSProduct
+            The next product within the current page fetched from the PDS Registry
+            API.
+
+        """
+        while True:
+            try:
+                for product in self._result_set.init_new_page(query_string=self._q_string, fields=self._fields):
+                    yield product
+            except RuntimeError as err:
+                # Make sure we got the StopIteration that was converted to a RuntimeError,
+                # otherwise we need to re-raise
+                if "StopIteration" not in str(err):
+                    raise err
+
+                self._result_set.reset()
+                break
+
+    def _add_clause(self, clause, logical_join="and"):
         """Adds the provided clause to the query string to use on the next fetch of products from the Registry API.
 
         Repeated calls to this method results in a joining with any previously
@@ -48,6 +83,11 @@ class QueryBuilder:
         clause : str
             The query clause to append. Clause should match the domain language
             expected by the PDS Registry API
+        logical_join : str, optional
+            The logical operator to use to join the new clause with any existing
+            clauses. Must be one of "and" or "or" (case-insensitive). This
+            argument has no effect if this is the first clause to be added.
+            Defaults to "and".
 
         Raises
         ------
@@ -56,9 +96,18 @@ class QueryBuilder:
             over from a previous query.
 
         """
+        # TODO transition off usage of this function to build a query string
+        #      in response to each user method call.
+        #      rather, have each user call track state about what was requested,
+        #      and then only assemble the final query string when __iter__ is called.
+        #      this should allow us flexibility to assemble individual sub-clauses
+        #      with logical OR, then join all sub-clauses together with logical AND.
+        if logical_join.lower() not in ("and", "or"):
+            raise ValueError(f'Invalid logical join operator "{logical_join}", must be either "and" or "or".')
+
         # TODO have something more agnostic of what the iterator is
-        # since the iterator is not managed by this present object
-        if hasattr(self, "_page_counter") and self._page_counter:
+        #      since the iterator is not managed by this present object
+        if hasattr(self._result_set, "_page_counter") and self._result_set._page_counter:
             raise RuntimeError(
                 "Cannot modify query while paginating over previous query results.\n"
                 "Use the reset() method on this Products instance or exhaust all returned "
@@ -66,8 +115,9 @@ class QueryBuilder:
             )
 
         clause = f"({clause})"
+
         if self._q_string:
-            self._q_string += f" and {clause}"
+            self._q_string += f" {logical_join.lower()} {clause}"
         else:
             self._q_string = clause
 
@@ -81,11 +131,11 @@ class QueryBuilder:
 
         Returns
         -------
-        This Products instance with the "has target" query filter applied.
+        This instance with the "has target" query filter applied.
 
         """
         clause = f'ref_lid_target eq "{identifier}"'
-        self._add_clause(clause)
+        self._add_clause(clause, logical_join="or")
         return self
 
     def has_investigation(self, identifier: str):
@@ -98,7 +148,7 @@ class QueryBuilder:
 
         Returns
         -------
-        This Products instance with the "has investigation" query filter applied.
+        This instance with the "has investigation" query filter applied.
 
         """
         clause = f'ref_lid_investigation eq "{identifier}"'
@@ -115,7 +165,7 @@ class QueryBuilder:
 
         Returns
         -------
-        This Products instance with the "before" filter applied.
+        This instance with the "before" filter applied.
 
         """
         iso8601_datetime = dt.isoformat().replace("+00:00", "Z")
@@ -133,7 +183,7 @@ class QueryBuilder:
 
         Returns
         -------
-        This Products instance with the "before" filter applied.
+        This instance with the "before" filter applied.
 
         """
         iso8601_datetime = dt.isoformat().replace("+00:00", "Z")
@@ -151,7 +201,7 @@ class QueryBuilder:
 
         Returns
         -------
-        This Products instance with the "Parent Collection" filter applied.
+        This instance with the "Parent Collection" filter applied.
 
         """
         clause = f'ops:Provenance.ops:parent_collection_identifier eq "{identifier}"'
@@ -163,7 +213,7 @@ class QueryBuilder:
 
         Returns
         -------
-        This Products instance with the "Observational Product" filter applied.
+        This instance with the "Observational Product" filter applied.
 
         """
         clause = 'product_class eq "Product_Observational"'
@@ -181,7 +231,7 @@ class QueryBuilder:
 
         Returns
         -------
-        This Products instance with the "Product Collection" filter applied.
+        This instance with the "Product Collection" filter applied.
 
         """
         clause = 'product_class eq "Product_Collection"'
@@ -198,7 +248,7 @@ class QueryBuilder:
 
         Returns
         -------
-        This Products instance with the "Product Bundle" filter applied.
+        This instance with the "Product Bundle" filter applied.
 
         """
         clause = 'product_class eq "Product_Bundle"'
@@ -215,7 +265,7 @@ class QueryBuilder:
 
         Returns
         -------
-        This Products instance with the "has instrument" filter applied.
+        This instance with the "has instrument" filter applied.
 
         """
         clause = f'ref_lid_instrument eq "{identifier}"'
@@ -232,7 +282,7 @@ class QueryBuilder:
 
         Returns
         -------
-        This Products instance with the "has instrument host" filter applied.
+        This instance with the "has instrument host" filter applied.
 
         """
         clause = f'ref_lid_instrument_host eq "{identifier}"'
@@ -250,7 +300,7 @@ class QueryBuilder:
 
         Returns
         -------
-        This Products instance with the "has processing level" filter applied.
+        This instance with the "has processing level" filter applied.
 
         """
         clause = f'pds:Primary_Result_Summary.pds:processing_level eq "{processing_level.title()}"'
@@ -313,10 +363,11 @@ class QueryBuilder:
 
         Returns
         -------
-        This Products instance with the "LIDVID identifier" filter applied.
+        This instance with the "LIDVID identifier" filter applied.
 
         """
-        self._add_clause(f'lidvid like "{identifier}"')
+        # Note: use of "like" is currently broken in the API when combined with other clauses
+        self._add_clause(f'lidvid eq "{identifier}"', logical_join="or")
         return self
 
     def fields(self, fields: list):
@@ -334,7 +385,116 @@ class QueryBuilder:
 
         Returns
         -------
-        This Products instance with the provided filtering clause applied.
+        This instance with the provided filtering clause applied.
         """
         self._add_clause(clause)
         return self
+
+    def products_with_target(self, keyword: str):
+        """Adds a query clause for any LIDVIDs that specify the provided keyword as a target.
+
+        The provided keyword is "cannonicalized" into several variations
+        (uppercase, lowercase, etc.) to cast a wider search across target names.
+
+        Notes
+        -----
+        To perform the mapping of the provided keyword to LIDs with that
+        keyword as a target, an intermediate query is performed synchronously
+        when this method is invoked. The results of the intermediate query are
+        then cached for future reference.
+
+        Parameters
+        ----------
+        keyword : str
+            The keyword value to search for.
+
+        Returns
+        -------
+        This instance with a "has target" filter applied for each LID derived
+        from the intermediate query.
+        """
+
+        def _canonicalize_target_name(target_name: str):
+            return target_name.title(), target_name.upper(), target_name.lower()
+
+        inter_q_string = " or ".join(
+            f'pds:Target.pds:name eq "{target_name}"' for target_name in _canonicalize_target_name(keyword)
+        )
+
+        logger.debug("inter_q_string=%s", inter_q_string)
+
+        @cache
+        def _get_inter_results(inter_q_string):
+            inter_result_set = ResultSet(self._client)
+            products_with_target = [product for product in inter_result_set.init_new_page(inter_q_string)]
+            return products_with_target
+
+        logger.info('Finding products with target "%s"', keyword)
+
+        products_with_target = _get_inter_results(inter_q_string)
+
+        logger.info('Found %d product(s) matching target "%s"', len(products_with_target))
+
+        lids = set()
+        for product in products_with_target:
+            lid = product.properties["lid"][0]
+
+            if lid not in lids:
+                self.has_target(lid)
+                lids.add(lid)
+
+        return self
+
+    def as_dataframe(self, max_rows: Optional[int] = None):
+        """Returns the found products as a pandas DataFrame.
+
+        Loops on the products found and returns a pandas DataFrame with the product properties as columns
+        and their identifier as index.
+
+        Parameters
+        ----------
+        max_rows : int
+            Optional limit in the number of products returned in the dataframe. Convenient for test while developing.
+            Default is no limit (None)
+
+        Returns
+        -------
+        The products as a pandas dataframe.
+        """
+        result_as_dict_list = []
+        lidvid_index = []
+        n = 0
+
+        for p in self:
+            result_as_dict_list.append(p.properties)
+            lidvid_index.append(p.id)
+            n += 1
+
+            if max_rows and n >= max_rows:
+                break
+
+        self.reset()
+
+        if n > 0:
+            df = pd.DataFrame.from_records(result_as_dict_list, index=lidvid_index)
+
+            # reduce useless arrays in dataframe columns
+            for column in df.columns:
+                only_1_element = df.apply(lambda x: len(x[column]) <= 1, axis=1)  # noqa
+                if only_1_element.all():
+                    df[column] = df.apply(lambda x: x[column][0], axis=1)  # noqa
+            return df
+        else:
+            logger.warning("Query with clause %s did not return any products.", self._q_string)  # noqa
+            return None
+
+    def reset(self):
+        """Resets internal pagination state to default.
+
+        This method should be called before making any modifications to the
+        query clause stored by this QueryBuilder instance while still paginating
+        through the results of a previous query.
+
+        """
+        self._result_set.reset()
+        self._q_string = ""

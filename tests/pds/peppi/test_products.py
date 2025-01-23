@@ -78,11 +78,11 @@ class ProductsTestCase(unittest.TestCase):
                 break
 
     def test_has_target(self):
-        lidvid = "urn:nasa:pds:context:target:asteroid.65803_didymos"
+        lid = "urn:nasa:pds:context:target:asteroid.65803_didymos"
         n = 0
-        for p in self.products.has_target(lidvid):
+        for p in self.products.has_target(lid):
             n += 1
-            assert lidvid in p.properties["ref_lid_target"]
+            assert lid in p.properties["ref_lid_target"]
             if n > self.MAX_ITERATIONS:
                 break
 
@@ -228,6 +228,33 @@ class ProductsTestCase(unittest.TestCase):
             assert node_name in p.properties["ops:Harvest_Info.ops:node_name"]
             if n > self.MAX_ITERATIONS:
                 break
+
+    def test_products_with_target(self):
+        test_cases = [
+            {"identifier": "mars", "expected_lid": "urn:nasa:pds:context:target:planet.mars"},
+            {"identifier": "moon", "expected_lid": "urn:nasa:pds:context:target:satellite.earth.moon"},
+            {"identifier": "saturn", "expected_lid": "urn:nasa:pds:context:target:planet.saturn"},
+        ]
+
+        for test_case in test_cases:
+            identifier = test_case["identifier"]
+            n = 0
+            self.products = self.products.products_with_target(identifier)
+
+            expected_lid = test_case["expected_lid"]
+            assert str(self.products) == f'(ref_lid_target eq "{expected_lid}")'
+
+            for p in self.products:
+                n += 1
+                assert expected_lid in p.properties["ref_lid_target"]
+                if n > self.MAX_ITERATIONS:
+                    break
+
+            # Make sure we got at least one result back
+            assert n > 0
+
+            # Reset query builder for next iteration
+            self.products.reset()
 
 
 if __name__ == "__main__":

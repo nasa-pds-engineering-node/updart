@@ -11,13 +11,15 @@ class OrexProductsTestCase(unittest.TestCase):
         self.client = pep.PDSRegistryClient()
         self.products = pep.OrexProducts(self.client)
 
-    def test_has_instrument(self):
+    def test_has_investigation(self):
         # Check that an instance of OrexProducts is initialized with a has_instrument filter
-        self.assertIn('ref_lid_instrument eq "urn:nasa:pds:context:instrument:ovirs.orex"', self.products._q_string)
+        self.assertIn(
+            'ref_lid_investigation eq "urn:nasa:pds:context:investigation:mission.orex"', self.products._q_string
+        )
 
-        # Check that an attempt to change the instrument results in an exception
+        # Check that an attempt to add an investigation filter results in an exception
         with self.assertRaises(NotImplementedError):
-            self.products.has_instrument("urn:nasa:pds:context:instrument:cls.farir_beamline")
+            self.products.has_investigation("urn:nasa:pds:context:investigation:mission.not_orex")
 
     def test_within_range(self):
         n = 0

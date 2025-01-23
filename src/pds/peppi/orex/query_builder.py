@@ -1,12 +1,12 @@
-"""Module containing the Osiris Rex (OREX) tailored ResultSet class."""
+"""Module containing the Osiris Rex (OREX) tailored QueryBuilder class."""
 from pds.peppi.client import PDSRegistryClient
-from pds.peppi.result_set import ResultSet
+from pds.peppi.query_builder import QueryBuilder
 
 
-class OrexResultSet(ResultSet):
-    """Inherits the functionality of the ResultSet class, but adds implementations for stubs in QueryBuilder."""
+class OrexQueryBuilder(QueryBuilder):
+    """Inherits the functionality of the QueryBuilder class, but adds implementations for unimplemented stubs."""
 
-    orex_instrument_lidvid = "urn:nasa:pds:context:instrument:ovirs.orex"
+    orex_investigation_lidvid = "urn:nasa:pds:context:investigation:mission.orex"
 
     def __init__(self, client: PDSRegistryClient):
         """Creates a new instance of OrexResultSet.
@@ -20,10 +20,10 @@ class OrexResultSet(ResultSet):
         super().__init__(client)
 
         # By default, all query results are filtered to just those applicable to
-        # the OREX instrument
-        self._q_string = f'ref_lid_instrument eq "{self.orex_instrument_lidvid}"'
+        # the Osiris Rex investigation
+        self._q_string = f'ref_lid_investigation eq "{self.orex_investigation_lidvid}"'
 
-    def has_instrument(self, identifier: str):
+    def has_investigation(self, identifier: str):
         """Adds a query clause selecting products having an instrument matching the provided identifier.
 
         Notes
@@ -41,7 +41,7 @@ class OrexResultSet(ResultSet):
         NotImplementedError
 
         """
-        raise NotImplementedError(f"Cannot specify an additional instrument on {self.__class__.__name__}")
+        raise NotImplementedError(f"Cannot specify an additional investigation on {self.__class__.__name__}")
 
     def within_range(self, range_in_km: float):
         """Adds a query clause selecting products within the provided range value.

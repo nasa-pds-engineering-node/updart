@@ -1,9 +1,9 @@
 """Main class of the Osiris Rex (OREX) Peppi package."""
 from pds.peppi.client import PDSRegistryClient
-from pds.peppi.orex.result_set import OrexResultSet
+from pds.peppi.orex.query_builder import OrexQueryBuilder
 
 
-class OrexProducts(OrexResultSet):
+class OrexProducts(OrexQueryBuilder):
     """Specialized Products class used to query specfically for Osiris Rex (OREX) products."""
 
     def __init__(self, client: PDSRegistryClient):
