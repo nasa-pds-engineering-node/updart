@@ -314,7 +314,7 @@ class QueryBuilder:
                 return " or ".join(f'{property_name} eq "{s}"' for s in _canonicalize_string(value))
 
             q_string = eq_cannonical_string_clause("pds:Identification_Area.pds:title", keyword)
-            q_string += f"or {eq_cannonical_string_clause('pds:Alias.pds:alternate_title', keyword)}"
+            q_string += f" or {eq_cannonical_string_clause('pds:Alias.pds:alternate_title', keyword)}"
 
             # add parenthesis to enforce the expected precedence on the or operator.
             q_string = f"({q_string})"
