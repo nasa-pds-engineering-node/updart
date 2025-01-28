@@ -12,7 +12,7 @@ date1 = datetime.fromisoformat("2012-01-23")
 # in the `PDS keyword search <https://pds.nasa.gov/datasearch/keyword-search/search.jsp>`_
 mercury_id = "urn:nasa:pds:context:target:planet.mercury"
 # filter here:
-products = pep.Products(client).has_target(mercury_id).before(date1).observationals()
+products = pep.Products(client).has_target("Mercury").before(date1).observationals()
 
 # Iterate on the results:
 for i, p in enumerate(products):
