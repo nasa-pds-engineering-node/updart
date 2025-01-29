@@ -1,9 +1,12 @@
+import logging
 import unittest
 from datetime import datetime
 from typing import get_args
 
 import pds.peppi as pep  # type: ignore
 from pds.api_client import PdsProduct
+
+logger = logging.getLogger(__name__)
 
 
 class ProductsTestCase(unittest.TestCase):
@@ -231,18 +234,18 @@ class ProductsTestCase(unittest.TestCase):
 
     def test_products_with_target(self):
         test_cases = [
-            {"identifier": "mars", "expected_lid": "urn:nasa:pds:context:target:planet.mars"},
-            {"identifier": "moon", "expected_lid": "urn:nasa:pds:context:target:satellite.earth.moon"},
-            {"identifier": "saturn", "expected_lid": "urn:nasa:pds:context:target:planet.saturn"},
+            {"title": "mars", "expected_lid": "urn:nasa:pds:context:target:planet.mars"},
+            {"title": "moon", "expected_lid": "urn:nasa:pds:context:target:satellite.earth.moon"},
+            {"title": "saturn", "expected_lid": "urn:nasa:pds:context:target:planet.saturn"},
         ]
 
         for test_case in test_cases:
-            identifier = test_case["identifier"]
+            title = test_case["title"]
             n = 0
-            self.products = self.products.products_with_target(identifier)
+            self.products = self.products.has_target(title)
 
             expected_lid = test_case["expected_lid"]
-            assert str(self.products) == f'(ref_lid_target eq "{expected_lid}")'
+            assert str(self.products) == f'((ref_lid_target eq "{expected_lid}"))'
 
             for p in self.products:
                 n += 1
@@ -255,6 +258,14 @@ class ProductsTestCase(unittest.TestCase):
 
             # Reset query builder for next iteration
             self.products.reset()
+
+    def test_product_has_target_not_found_raise_warning(self):
+        with self.assertLogs(level="INFO") as log:
+            self.products = self.products.has_target("not_existing_target_title")
+            for _ in self.products:
+                break
+
+            self.assertTrue(any(item.startswith("WARNING") for item in log.output))
 
 
 if __name__ == "__main__":

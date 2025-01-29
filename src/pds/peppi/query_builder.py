@@ -7,6 +7,7 @@ from datetime import datetime
 from functools import cache
 from typing import Literal
 from typing import Optional
+from typing import Union
 
 import pandas as pd
 
@@ -121,22 +122,54 @@ class QueryBuilder:
         else:
             self._q_string = clause
 
-    def has_target(self, identifier: str):
-        """Adds a query clause selecting products having a given target identifier.
+    def _has_target(self, identifiers: Union[list, str]):
+        """Adds a query clause from 1 or n, target lids, apply OR operator between lids."""
+        if isinstance(identifiers, str):
+            identifiers = [identifiers]
+
+        if len(identifiers) > 0:
+            clause = "or ".join([f'ref_lid_target eq "{identifier}"' for identifier in identifiers])
+            # add parenthesis to force the precendence on the 'or' operator
+            clause = f"({clause})"
+            self._add_clause(clause)
+        else:
+            logger.warning("No target filter defined, ignore")
+
+        return self
+
+    def has_target(self, target: str):
+        """Adds a query clause selecting products having a given target as a lid or a keyword.
+
+        Adds a query clause selecting products having a given target as a lid
+        (for example `urn:nasa:pds:context:target:planet.mercury`) or a keyword, for example `Mercury`.
 
         Parameters
         ----------
-        identifier : str
-            Identifier (LIDVID) of the target.
+        target : str
+            Identifier (LID) of the target or a keyword matching the title of the target.
+            The provided keyword is "cannonicalized" into several variations
+        (uppercase, lowercase, etc.) to cast a wider search across target names.
+
 
         Returns
         -------
         This instance with the "has target" query filter applied.
 
         """
-        clause = f'ref_lid_target eq "{identifier}"'
-        self._add_clause(clause, logical_join="or")
-        return self
+        if target.startswith("urn:"):
+            logger.info('Finding products with target lid "%s"', target)
+            lids = [target]
+        else:
+
+            @cache
+            def _get_lids_from_title(k):
+                return list({p.properties["lid"][0] for p in QueryBuilder(self._client).contexts(k)})
+
+            logger.info('Finding products with target "%s"', target)
+            lids = _get_lids_from_title(target)
+            logger.info('Found %d product(s) matching target "%s", lids are: %s', len(lids), target, lids)
+
+        return self._has_target(lids)
 
     def has_investigation(self, identifier: str):
         """Adds a query clause selecting products having a given investigation identifier.
@@ -253,6 +286,41 @@ class QueryBuilder:
         """
         clause = 'product_class eq "Product_Bundle"'
         self._add_clause(clause)
+        return self
+
+    def contexts(self, keyword: str = None):
+        """Adds a query clause selecting only "Context" type products (targets, investigations, instruments, etc...).
+
+        Parameters
+        ----------
+        keyword : str, optional
+            Title of the context products. Automatically search for "cannonicalized" variations
+            (uppercase, lowercase, etc.) to cast a wider search across target names.
+
+        Returns
+        -------
+        This instance with the "Product Context" filter applied.
+
+        """
+        clause = 'product_class eq "Product_Context"'
+        self._add_clause(clause)
+
+        if keyword:
+
+            def _canonicalize_string(string: str):
+                return string.title(), string.upper(), string.lower()
+
+            def eq_cannonical_string_clause(property_name: str, value: str):
+                return " or ".join(f'{property_name} eq "{s}"' for s in _canonicalize_string(value))
+
+            q_string = eq_cannonical_string_clause("pds:Identification_Area.pds:title", keyword)
+            q_string += f"or {eq_cannonical_string_clause('pds:Alias.pds:alternate_title', keyword)}"
+
+            # add parenthesis to enforce the expected precedence on the or operator.
+            q_string = f"({q_string})"
+
+            self._add_clause(q_string)
+
         return self
 
     def has_instrument(self, identifier: str):
@@ -388,61 +456,6 @@ class QueryBuilder:
         This instance with the provided filtering clause applied.
         """
         self._add_clause(clause)
-        return self
-
-    def products_with_target(self, keyword: str):
-        """Adds a query clause for any LIDVIDs that specify the provided keyword as a target.
-
-        The provided keyword is "cannonicalized" into several variations
-        (uppercase, lowercase, etc.) to cast a wider search across target names.
-
-        Notes
-        -----
-        To perform the mapping of the provided keyword to LIDs with that
-        keyword as a target, an intermediate query is performed synchronously
-        when this method is invoked. The results of the intermediate query are
-        then cached for future reference.
-
-        Parameters
-        ----------
-        keyword : str
-            The keyword value to search for.
-
-        Returns
-        -------
-        This instance with a "has target" filter applied for each LID derived
-        from the intermediate query.
-        """
-
-        def _canonicalize_target_name(target_name: str):
-            return target_name.title(), target_name.upper(), target_name.lower()
-
-        inter_q_string = " or ".join(
-            f'pds:Target.pds:name eq "{target_name}"' for target_name in _canonicalize_target_name(keyword)
-        )
-
-        logger.debug("inter_q_string=%s", inter_q_string)
-
-        @cache
-        def _get_inter_results(inter_q_string):
-            inter_result_set = ResultSet(self._client)
-            products_with_target = [product for product in inter_result_set.init_new_page(inter_q_string)]
-            return products_with_target
-
-        logger.info('Finding products with target "%s"', keyword)
-
-        products_with_target = _get_inter_results(inter_q_string)
-
-        logger.info('Found %d product(s) matching target "%s"', len(products_with_target))
-
-        lids = set()
-        for product in products_with_target:
-            lid = product.properties["lid"][0]
-
-            if lid not in lids:
-                self.has_target(lid)
-                lids.add(lid)
-
         return self
 
     def as_dataframe(self, max_rows: Optional[int] = None):
