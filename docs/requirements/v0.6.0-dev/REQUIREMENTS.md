@@ -100,3 +100,7 @@ This requirement is not impacted by the current version
 
 
 This requirement is not impacted by the current version
+## As a user, to get product from a given investigation using a string ([#88](https://github.com/NASA-PDS/peppi/issues/88)) 
+
+
+This requirement is not impacted by the current version
