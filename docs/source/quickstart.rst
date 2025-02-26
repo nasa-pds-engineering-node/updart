@@ -62,9 +62,11 @@ Iterate on the results:
             break
 
 
+Numerous pre-defined filters are available, you can `explore them <https://nasa-pds.github.io/peppi/reference.html#pds.peppi.query_builder.QueryBuilder>`_.
+
 Next steps
 ~~~~~~~~~~~
 
 - Full library :doc:`reference`
 - Various Demo Use cases `Jupyter notebooks <https://github.com/NASA-PDS/search-api-notebook>`_ and `Seismic use case <https://github.com/civilinifr/cloud_testcase/>`_
-- Missing a feature ? Request it, create a `ticket <https://github.com/nasa-pds/peppi/issues>`_
+- Missing a feature ? Request it, create a `ticket <https://github.com/nasa-pds/peppi/issues>`_ or start a `discussion <https://github.com/NASA-PDS/peppi/discussions>`_.
