@@ -148,8 +148,7 @@ class QueryBuilder:
         target : str
             Identifier (LID) of the target or a keyword matching the title of the target.
             The provided keyword is "cannonicalized" into several variations
-        (uppercase, lowercase, etc.) to cast a wider search across target names.
-
+            (uppercase, lowercase, etc.) to cast a wider search across target names.
 
         Returns
         -------
@@ -314,7 +313,7 @@ class QueryBuilder:
                 return " or ".join(f'{property_name} eq "{s}"' for s in _canonicalize_string(value))
 
             q_string = eq_cannonical_string_clause("pds:Identification_Area.pds:title", keyword)
-            q_string += f"or {eq_cannonical_string_clause('pds:Alias.pds:alternate_title', keyword)}"
+            q_string += f" or {eq_cannonical_string_clause('pds:Alias.pds:alternate_title', keyword)}"
 
             # add parenthesis to enforce the expected precedence on the or operator.
             q_string = f"({q_string})"
@@ -449,7 +448,8 @@ class QueryBuilder:
         Parameters
         ----------
         clause : str
-            A custom query clause.
+            A query clause using the
+            `PDS API query syntax <https://nasa-pds.github.io/pds-api/guides/search/endpoints.html#query-string-syntax>`_
 
         Returns
         -------
